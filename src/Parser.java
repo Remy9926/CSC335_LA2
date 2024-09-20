@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 // File: Parser.java
@@ -69,7 +71,7 @@ public class Parser {
 
 		switch (this.command) {
 			case SEARCH:
-				System.out.print("Please input your search type: ");
+				System.out.print("Please input your search type (title, author, rating): ");
 				String search = scanner.nextLine();
 				SearchType searchType = getSearchType(search);
 				
@@ -82,7 +84,8 @@ public class Parser {
 			
 			case ADD_BOOK:
 				this.command = Command.ADD_BOOK;
-				System.out.print("Please input your search type: ");
+				System.out.print("Please input your search type (title, author, rating): ");
+				
 				System.out.print("Please input your search type: ");
 				break;
 			
@@ -104,6 +107,31 @@ public class Parser {
 				
 			case ADD_BOOKS:
 				this.command = Command.ADD_BOOKS;
+				System.out.println("What is the name of the file that you want to read from?");
+				String fileName = scanner.nextLine();
+				File file = new File(fileName);
+				
+				if (!file.exists()) {
+					System.out.println("Sorry, the file you specified does not exist!");
+				}
+				try {
+					Scanner readFile = new Scanner(file);
+					
+					while (readFile.hasNextLine()) {
+						String line = readFile.nextLine();
+						String[] splitLine = line.split(";");
+						String title = splitLine[0];
+						String author = splitLine[1];
+						Book newBook = new Book(title, author);
+						model.addBookToLibrary(newBook);
+					}
+					
+					readFile.close();
+					System.out.println("All books from " + fileName + " have been added to your library!");
+				}
+				catch (FileNotFoundException e) {
+					System.out.println("Sorry, the file could not be found");
+				}
 				break;
 				
 			case HELP:
