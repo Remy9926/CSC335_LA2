@@ -17,15 +17,15 @@ public class Book {
 
     private String title;
     private String author;
-    private int rating;  
-    private boolean haveRead; 
+    private int rating;
+    private boolean haveRead;
 
     public Book(String title, String author) {
 
         this.title = title;
         this.author = author;
         this.rating = 0;  // 0 means unrated default
-        this.haveRead= false ; 
+        this.haveRead= false ;
     }
 
     
@@ -36,14 +36,14 @@ public class Book {
     }
 
 
-    
+
     // gets the rating of the book.
     //@return  rating of the book,between 1 and 5, or 0 if unrated.
     public boolean haveRead() {
         return haveRead ;
     }
 
-    
+
     //gets the rating of the book.
     //@return  rating of the book.
     public int getRating() {
