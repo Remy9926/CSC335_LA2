@@ -36,6 +36,6 @@ public class MyLibrary {
 	}
 	
 	private static void promptUser() {
-		System.out.println("Please input a command to continue.");
+		System.out.println("Please input a command to continue: ");
 	}
 }
