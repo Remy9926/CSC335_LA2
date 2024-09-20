@@ -25,9 +25,15 @@ public class Book {
         this.title = title;
         this.author = author;
         this.rating = 0;  // 0 means unrated default
-        this.haveRead= false ;
+        this.haveRead= false;
     }
 
+    public Book(String title, String author, boolean haveRead) {
+    	this.title = title;
+        this.author = author;
+        this.rating = 0;  // 0 means unrated default
+        this.haveRead= haveRead;
+    }
     
     //gets the title of the book.
     // @return  title of the book.
