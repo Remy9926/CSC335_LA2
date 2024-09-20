@@ -28,60 +28,47 @@ public class Book {
         this.haveRead= false ; 
     }
 
-    /*
-    * gets the title of the book.
-    *
-    * @return  title of the book.
-    */
+    
+    //gets the title of the book.
+    // @return  title of the book.
     public String getTitle() {
         return title;
     }
 
 
-    /*
-    * gets the rating of the book.
-    *
-    * @return  rating of the book,between 1 and 5, or 0 if unrated.
-    */
+    
+    // gets the rating of the book.
+    //@return  rating of the book,between 1 and 5, or 0 if unrated.
     public boolean haveRead() {
         return haveRead ;
     }
 
-    /*
-    * gets the rating of the book.
-    *
-    * @return  rating of the book.
-    */
-
+    
+    //gets the rating of the book.
+    //@return  rating of the book.
     public int getRating() {
         return rating;
     }
 
 
-    /*
-    * gets the author of the book.
-    *
-    * @return  author of the book.
-    */
+    
+     //gets the author of the book.
+     //@return  author of the book.
     public String getAuthor() {
         return author;
     }
     
 
-    /*
-    * gets the read status of the book.
-    *
-    * @return  read status of the book.
-    */
+    
+     //gets the read status of the book.
+     //@return  read status of the book.
     public void setToRead() {
         this.haveRead = true;  
     }
 
-    /*
-    * sets the rating for the book.
-    *
-    * @return  what rating is of the book.
-    */
+    
+    //sets the rating for the book
+    //@return  what rating is of the book.
     public void setRating(int rating) {
         if (rating > 0 && rating < 6) {
             this.rating = rating;
@@ -90,11 +77,9 @@ public class Book {
         }
     }
 
-    /*
-    * tostring method for string rep of book
-    *
-    * @return  string representation of book
-    */
+    
+    // tostring method for string rep of book
+    //@return  string representation of book
     public String toString() {
         return title + " by " + author + '\n'+ " - Rating: " +
         		rating + " |" + (haveRead ? "Read" : "Unread") + "|";
