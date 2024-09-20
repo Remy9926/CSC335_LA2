@@ -29,7 +29,7 @@ public class Book {
     }
 
     /*
-    * get the title of the book.
+    * gets the title of the book.
     *
     * @return  title of the book.
     */
@@ -94,7 +94,8 @@ public class Book {
     * tostring method for string rep of book
     *
     * @return  string representation of book
-    */    public String toString() {
+    */
+    public String toString() {
         return title + " by " + author + '\n'+ " - Rating: " +
         		rating + " |" + (haveRead ? "Read" : "Unread") + "|";
     }
