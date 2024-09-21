@@ -10,12 +10,13 @@ public class MyLibrary {
 		showWelcomeMessage();
 		Scanner scanner = new Scanner(System.in);
 		String input = "";
+		LibraryModel model = new LibraryModel();  
+		Parser parser = new Parser(model);
 		promptUser();
 		
 		while (scanner.hasNextLine()) {
 			try {
 				input = scanner.nextLine();
-				Parser parser = new Parser();
 				parser.setCommand(input);
 				int exit = parser.executeCommand(scanner);
 				

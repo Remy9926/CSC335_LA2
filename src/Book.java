@@ -28,11 +28,12 @@ public class Book {
         this.haveRead= false;
     }
 
-    public Book(String title, String author, boolean haveRead) {
-    	this.title = title;
-        this.author = author;
-        this.rating = 0;  // 0 means unrated default
-        this.haveRead= haveRead;
+    // copy constructor for encapsulation
+    public Book(Book other) {
+        this.title = other.title;
+        this.author = other.author;
+        this.haveRead = other.haveRead;
+        this.rating = other.rating;
     }
     
     //gets the title of the book.

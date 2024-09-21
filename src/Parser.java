@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 // File: Parser.java
 // Author(s): Mandy Jiang (user:mandyjiang), Ethan Huang
@@ -13,11 +15,11 @@ public class Parser {
 	private SearchType searchType;
 	private String[] params;
 	
-	public Parser() {
-		this.model = new LibraryModel();
+	public Parser(LibraryModel model) {
+		this.model = model;
 	}
 	
-	void setCommand(String command) throws NullCommandException {
+	public void setCommand(String command) throws NullCommandException {
 		if (command == null) {
 			throw new NullCommandException(command);
 		}
@@ -67,7 +69,7 @@ public class Parser {
 		}
 	}
 	
-	int executeCommand(Scanner scanner) {
+	public int executeCommand(Scanner scanner) {
 
 		switch (this.command) {
 			case SEARCH:
@@ -84,21 +86,63 @@ public class Parser {
 			
 			case ADD_BOOK:
 				this.command = Command.ADD_BOOK;
-				System.out.print("Please input your search type (title, author, rating): ");
+				System.out.print("Please enter the book's title: ");
+				String title = scanner.nextLine();
 				
-				System.out.print("Please input your search type: ");
+				System.out.print("Please enter the book's author: ");
+				String author = scanner.nextLine();
+
+				Book newBook = new Book(title, author);
+				model.addBookToLibrary(newBook);
+				
+				System.out.println("Book added successfully: " + newBook);
 				break;
 			
 			case SET_TO_READ:
 				this.command = Command.SET_TO_READ;
+				this.command = Command.SET_TO_READ;
+				System.out.print("Please enter the title of the book to mark as read: ");
+				String bookTitle = scanner.nextLine();  // Fixed variable name
+
+				boolean success = model.setToRead(bookTitle);  // Call to LibraryModel method
+				if (success) {
+					System.out.println("Book marked as read.");
+				} else {
+					System.out.println("Book not found or already read.");
+				}
 				break;
+				
 				
 			case RATE:
 				this.command = Command.RATE;
+				System.out.print("Please enter the title of the book you want to rate: ");
+				String booksTitle = scanner.nextLine();  
+				
+				System.out.print("Please enter a rating (1-5): ");
+				int rating;
+				rating = Integer.parseInt(scanner.nextLine()); 
+				boolean successful = model.rateBook(booksTitle, rating);  
+			
+				if (successful) {
+					System.out.println("Book successfully rated.");
+				} else {
+					System.out.println("Book not found or invalid rating.");
+				}
 				break;
 				
 			case GET_BOOKS:
-				this.command = Command.GET_BOOKS;
+				System.out.print("How would you like to sort your books? (title/author/read/unread): ");
+				String option = scanner.nextLine().toLowerCase(); 
+				
+				ArrayList<Book> books = model.getBooks(option); 
+				
+				if (books != null && !books.isEmpty()) {
+					for (Book book : books) {
+						System.out.println(book); 
+					}
+				} else {
+					System.out.println("No books found or sort option invalid.");
+				}
 				break;
 				
 			case SUGGEST_READ:
@@ -108,29 +152,30 @@ public class Parser {
 			case ADD_BOOKS:
 				this.command = Command.ADD_BOOKS;
 				System.out.println("What is the name of the file that you want to read from?");
+
 				String fileName = scanner.nextLine();
-				File file = new File(fileName);
-				
-				if (!file.exists()) {
+
+				// Access file using getClass().getResourceAsStream() for files inside 'src'
+				InputStream inputStream = getClass().getResourceAsStream("/" + fileName);
+				if (inputStream == null) {
 					System.out.println("Sorry, the file you specified does not exist!");
+					break;
 				}
+
 				try {
-					Scanner readFile = new Scanner(file);
-					
+					Scanner readFile = new Scanner(inputStream);
 					while (readFile.hasNextLine()) {
 						String line = readFile.nextLine();
 						String[] splitLine = line.split(";");
-						String title = splitLine[0];
-						String author = splitLine[1];
-						Book newBook = new Book(title, author);
-						model.addBookToLibrary(newBook);
+						String title1 = splitLine[0];
+						String author1 = splitLine[1];
+						Book newBook1 = new Book(title1, author1);
+						model.addBookToLibrary(newBook1);
 					}
-					
 					readFile.close();
 					System.out.println("All books from " + fileName + " have been added to your library!");
-				}
-				catch (FileNotFoundException e) {
-					System.out.println("Sorry, the file could not be found");
+				} catch (Exception e) {
+					System.out.println("Error reading the file: " + e.getMessage());
 				}
 				break;
 				
