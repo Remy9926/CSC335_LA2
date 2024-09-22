@@ -1,5 +1,5 @@
 // File: Book.java
-// Author(s): Mandy Jiang (user:mandyjiang), Ethan Huang
+// Author(s): Mandy Jiang (mxndyj), Ethan Huang (remy9926)
 // Purpose: Book object with book info that will be in library 
 
 

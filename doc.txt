@@ -1,2 +1,3 @@
 Documentation for LA2  
 
+Author(s): Mandy Jiang (mxndyj), Ethan Huang (remy9926)

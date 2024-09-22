@@ -1,5 +1,5 @@
 // File: Command.java
-// Author(s): Mandy Jiang (user:mandyjiang), Ethan Huang
+// Author(s): Mandy Jiang (mxndyj), Ethan Huang (remy9926)
 // Purpose: Represents the different commands that a user can input
 
 /*
