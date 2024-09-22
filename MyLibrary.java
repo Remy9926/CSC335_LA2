@@ -6,7 +6,12 @@ import java.util.Scanner;
 
 /*
  * The MyLibrary Class acts as the UI that a user would interact with to manage their
- * library.It does not contain any methods itself to interact
+ * library. It does not contain any methods to directly interact with the LibraryModel
+ * Class. This allows for the MyLibrary class to strictly function as the UI and any
+ * user input will be read by the Parser Class, which will then interpret the command and
+ * prompt the user as necessary to change the library. Encapsulation is achieved by having
+ * the MyLibrary Class focus on solely the UI and include methods that display messages to
+ * the user.
  */
 public class MyLibrary {
 	
