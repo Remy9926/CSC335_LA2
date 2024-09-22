@@ -3,6 +3,11 @@
 // Purpose: Parses the user input to validate and execute commands as necessary
 
 import java.io.File;
+<<<<<<< Updated upstream:Parser.java
+=======
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+>>>>>>> Stashed changes:src/Parser.java
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -141,17 +146,10 @@ public class Parser {
 				//ask user for author of the book too?
 				System.out.print("Please enter the title of the book you want to rate: ");
 				String booksTitle = scanner.nextLine();  
-<<<<<<< Updated upstream:Parser.java
 				System.out.print("Please enter the book author: ");
 				String booksAuthor  = scanner.nextLine();
-
-				
-=======
-
->>>>>>> Stashed changes:src/Parser.java
 				System.out.print("Please enter a rating (1-5): ");
-				int rating;
-				rating = Integer.parseInt(scanner.nextLine()); 
+				int rating = Integer.parseInt(scanner.nextLine()); 
 				boolean successful = model.rateBook(booksTitle, rating,booksAuthor);  
 			
 				if (successful) {
