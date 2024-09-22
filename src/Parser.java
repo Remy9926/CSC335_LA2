@@ -71,7 +71,6 @@ public class Parser {
 
 		switch (this.command) {
 			case SEARCH:
-				//TODO: implement this
 				System.out.print("Please enter your search type (title/author/rating): ");
 				String searchType = scanner.nextLine().trim().toLowerCase();
 				
