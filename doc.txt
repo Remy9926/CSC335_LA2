@@ -1,3 +1,62 @@
 Documentation for LA2  
 
 Author(s): Mandy Jiang (mxndyj), Ethan Huang (remy9926)
+
+
+MyLibrary
+The MyLibrary Class represents the text UI that the user can interact with and type commands into
+to mutate the Library. In terms of the MVC design pattern, this class is the View.
+
+Scanner- This class uses java.util.Scanner to read the user input from stdin.
+
+
+Parser
+The Parser Class interprets user input received from from the UI and addresses each command
+accordingly. Any errors that may arise from invalid user input are caught here and reported
+back to the user. In MVC, this is the Controller.
+
+File- This class uses java.io.File to find the file specified by the user to read books in from.
+
+Scanner- This class uses java.util.Scanner to read the user input from stdin.
+
+ArrayList- This class uses java.util.ArrayList store a deep copy of the library when the user
+searches for certain books.
+
+
+LibraryModel
+The LibraryModel Class models the library of the user and stores information about the books and
+their attributes in the library. If the user inputs any kind of invalid input, this class will
+catch them and notify the Parser Class, who will then display the error message to the user.
+In MVC, this class is the Model.
+
+ArrayList- This class uses java.util.ArrayList store a deep copy of the library when the user
+searches for certain books.
+
+Collections- This class uses java.util.Collections to shuffle the library and find a random book
+to return to the user when asked.
+
+Comparator- This class uses java.util.Comparator to compare Book objects when the user
+wants to find books in the library based on some filter.
+
+Book
+The Book Class models a book in the library with the fields title, author, rating, and haveRead.
+These attributes help identify the book such as when the user wants to search by title, author,
+or rating. All instance variables are private, and can be retrieved with their appropriate getters
+while only the rating and haveRead variables have setters as well.
+
+
+Command
+
+The Command Class represents the kinds of commands that the user can input. In addition to the
+commands specified by the spec, we have added 2 more commands help and exit, which allow the user
+to see the entire list of commands and exit the program, respectively. There is also the enum,
+INVALID, which is when the user inputs an invalid command.
+
+
+NullCommandException
+
+The NullCommandException Class represents an exception in the program, which is when null is read
+from stdin. However, since the program cannot interpret null, the user will be notified that this
+has occurred instead, which prevents any unintended behaviors from occurring.
+
+Exception- This Class extends the Java Exception Class.
