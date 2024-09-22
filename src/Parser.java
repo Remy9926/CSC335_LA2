@@ -12,8 +12,6 @@ public class Parser {
 	
 	private LibraryModel model;
 	private Command command;
-	private SearchType searchType;
-	private String[] params;
 	
 	public Parser(LibraryModel model) {
 		this.model = model;
@@ -73,19 +71,28 @@ public class Parser {
 
 		switch (this.command) {
 			case SEARCH:
-				System.out.print("Please input your search type (title, author, rating): ");
-				String search = scanner.nextLine();
-				SearchType searchType = getSearchType(search);
+				//TODO: implement this
+				System.out.print("Please enter your search type (title/author/rating): ");
+				String searchType = scanner.nextLine().trim().toLowerCase();
 				
-				if (searchType == SearchType.NULL) {
-					System.out.println("Invalid search type specified!");
-					break;
+				if (searchType.equals("title")) {
+					System.out.println("Please enter the title of the book: ");
+					String title = scanner.nextLine().trim();
+				}
+				
+				if (searchType.equals("author")) {
+					System.out.println("Please enter the author of the book: ");
+					String author = scanner.nextLine().trim();
+				}
+				
+				if (searchType.equals("rating")) {
+					System.out.println("Please enter the rating of the book (1-5): ");
+					int rating = Integer.parseInt(scanner.nextLine().trim());
 				}
 				
 				break;
 			
 			case ADD_BOOK:
-				this.command = Command.ADD_BOOK;
 				System.out.print("Please enter the book's title: ");
 				String title = scanner.nextLine();
 				
@@ -99,8 +106,6 @@ public class Parser {
 				break;
 			
 			case SET_TO_READ:
-				this.command = Command.SET_TO_READ;
-				this.command = Command.SET_TO_READ;
 				System.out.print("Please enter the title of the book to mark as read: ");
 				String bookTitle = scanner.nextLine();  // Fixed variable name
 
@@ -114,7 +119,6 @@ public class Parser {
 				
 				
 			case RATE:
-				this.command = Command.RATE;
 				System.out.print("Please enter the title of the book you want to rate: ");
 				String booksTitle = scanner.nextLine();  
 				
@@ -146,17 +150,23 @@ public class Parser {
 				break;
 				
 			case SUGGEST_READ:
-				this.command = Command.SUGGEST_READ;
+				Book suggestedBook = model.suggestBook();
+				
+				if (suggestedBook == null) {
+					System.out.println("You have already read all books in your library!");
+				} else {
+					System.out.println(suggestedBook);
+				}
 				break;
 				
 			case ADD_BOOKS:
-				this.command = Command.ADD_BOOKS;
 				System.out.println("What is the name of the file that you want to read from?");
 
 				String fileName = scanner.nextLine();
 
 				// Access file using getClass().getResourceAsStream() for files inside 'src'
 				InputStream inputStream = getClass().getResourceAsStream("/" + fileName);
+
 				if (inputStream == null) {
 					System.out.println("Sorry, the file you specified does not exist!");
 					break;
@@ -180,7 +190,6 @@ public class Parser {
 				break;
 				
 			case HELP:
-				this.command = Command.HELP;
 				displayHelpMessage();
 				break;
 				
@@ -190,7 +199,6 @@ public class Parser {
 				return 1;
 			
 			default:
-				this.command = Command.INVALID;
 				System.out.println("Sorry, I do not understand your command. Press help for the list of commands.");
 				break;
 		}
@@ -200,31 +208,15 @@ public class Parser {
 	private String cleanInput(String input) {
 		return input.trim();
 	}
-	
-	private SearchType getSearchType(String searchType) {
-		switch (searchType) {
-			case "title":
-				return SearchType.TITLE;
-				
-			case "author":
-				return SearchType.AUTHOR;
-				
-			case "rating":
-				return SearchType.RATING;
-				
-			default:
-				return SearchType.NULL;
-		}
-	}
 
 	private void displayHelpMessage() {
 		System.out.println("All commands are case sensitive!\n");
-		System.out.println("search- specify whether to search by title, author, or rating and the results will be returned to you");
-		System.out.println("addBook- specify the title, author, rating, and whether or not you have read the book and adds it to your library");
-		System.out.println("setToRead- specify the title and author of the book you want to set to read");
-		System.out.println("rate- specify the title and author of the book you want to rate from 1-5 with default ratings set to 0");
-		System.out.println("getBooks- retrieves all books sorting by title or author, or only read/unread books");
-		System.out.println("suggestRead- picks a random unread book from the library");
+		System.out.println("search- specify whether to search by title, author, or rating and the results will be returned to you\n");
+		System.out.println("addBook- specify the title, author, rating, and whether or not you have read the book and adds it to your library\n");
+		System.out.println("setToRead- specify the title and author of the book you want to set to read\n");
+		System.out.println("rate- specify the title and author of the book you want to rate from 1-5 with default ratings set to 0\n");
+		System.out.println("getBooks- retrieves all books sorting by title or author, or only read/unread books\n");
+		System.out.println("suggestRead- picks a random unread book from the library\n");
 		System.out.println("addBooks- specify a file name, and all books from that file will be read into the libray\n");
 	}
 }

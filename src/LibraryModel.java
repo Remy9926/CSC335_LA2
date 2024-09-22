@@ -3,6 +3,7 @@
 // Purpose: Models the library on the backend so that the user doesn't directly interact with it
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 
 public class LibraryModel {
@@ -15,7 +16,6 @@ public class LibraryModel {
 	
 	public void addBookToLibrary(Book book) {
 		library.add(book);
-	
 	}
 
 
@@ -23,7 +23,7 @@ public class LibraryModel {
 
 		ArrayList<Book> sortedBooks = new ArrayList<>(library);
 	
-		switch (option.toLowerCase()) {
+		switch (option.trim().toLowerCase()) {
 			case "title":
 				sortedBooks.sort(Comparator.comparing(book -> book.getTitle().toLowerCase()));
 				break;
@@ -47,23 +47,21 @@ public class LibraryModel {
 				return new ArrayList<>();
 		}
 		// rerturns copy 
-		ArrayList<Book> bookCopy = new ArrayList<>();
+		ArrayList<Book> sortedBooksCopy = new ArrayList<>();
 		for (Book book : sortedBooks) {
-			bookCopy.add(new Book(book));  
+			sortedBooksCopy.add(new Book(book));  
 		}
 	
-		return bookCopy;
+		return sortedBooksCopy;
 	}
 
 
 
 	public boolean setToRead(String title) {
         for (Book book : library) {
-            if (book.getTitle().equalsIgnoreCase(title)) {  
-                if (!book.haveRead()) { 
-                    book.setToRead();
-                    return true;  
-                }
+            if (book.getTitle().equalsIgnoreCase(title) && !book.haveRead()) {  
+            	book.setToRead();
+                return true;  
             }
         }
         return false;  
@@ -73,20 +71,67 @@ public class LibraryModel {
 
 
 	public boolean rateBook(String title, int rating) {
-        if (rating < 0 || rating > 6) {
+        if (rating < 1 || rating > 6) {
             System.out.println("Rating must be between 1 and 5.");
             return false;
         }
 
         for (Book book : library) {
             if (book.getTitle().equalsIgnoreCase(title)) {  
-                book.setRating(rating); 
+                book.setRating(rating);
                 return true; 
             }
         }
 
         return false;  
     }
+	
+	public Book suggestBook() {
+		Collections.shuffle(library);
+		
+		for (Book book: library) {
+			if (!book.haveRead()) {
+				return new Book(book);
+			}
+		}
+		return null;
+	}
+	
+	public ArrayList<Book> searchBooksByTitle(String title) {
+		ArrayList<Book> books = new ArrayList<Book>();
+		
+		for (Book b: library) {
+			if (b.getTitle().equals(title)) {
+				books.add(new Book(b));
+			}
+		}
+		return books;
+	}
+	
+	public ArrayList<Book> searchBooksByAuthor(String title) {
+		ArrayList<Book> books = new ArrayList<Book>();
+		
+		for (Book b: library) {
+			if (b.getAuthor().equals(title)) {
+				books.add(new Book(b));
+			}
+		}
+		return books;
+	}
+	
+	public ArrayList<Book> searchBooksByRating(int rating) {
+		if (rating < 1 || rating > 5) {
+			return null;
+		}
+		ArrayList<Book> books = new ArrayList<Book>();
+		
+		for (Book b: library) {
+			if (b.getRating() == rating) {
+				books.add(new Book(b));
+			}
+		}
+		return books;
+	}
 }
 
 
