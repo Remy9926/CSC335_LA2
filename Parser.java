@@ -3,13 +3,17 @@
 // Purpose: Parses the user input to validate and execute commands as necessary
 
 import java.io.File;
-<<<<<<< Updated upstream:Parser.java
-=======
-import java.io.FileNotFoundException;
-import java.io.InputStream;
->>>>>>> Stashed changes:src/Parser.java
 import java.util.Scanner;
 import java.util.ArrayList;
+
+/*
+ * The Parser Class acts as the intermediary between the MyLibrary and LibraryModel Classes.
+ * Parser will take in the user's input and interpret what command the user is trying to perform
+ * and ask for more information from the user depending on the command, or let the user know that
+ * an error occurred because of some kind of invalid input. Encapsulation is achieved by not
+ * keeping the LibraryModel object in a private variable as well as the command that is to be
+ * executed in a private variable so that no other classes have access to this information.
+ */
 
 public class Parser {
 	
@@ -127,9 +131,9 @@ public class Parser {
 				break;
 			
 			case SET_TO_READ:
-				//ask user for author of the book too?
 				System.out.print("Please enter the title of the book to mark as read: ");
 				String bookTitle = scanner.nextLine();  
+				
 				System.out.println("Please enter the book author: ");
 				String bookAuthor= scanner.nextLine();
 
@@ -143,11 +147,12 @@ public class Parser {
 				
 				
 			case RATE:
-				//ask user for author of the book too?
 				System.out.print("Please enter the title of the book you want to rate: ");
 				String booksTitle = scanner.nextLine();  
+				
 				System.out.print("Please enter the book author: ");
 				String booksAuthor  = scanner.nextLine();
+				
 				System.out.print("Please enter a rating (1-5): ");
 				int rating = Integer.parseInt(scanner.nextLine()); 
 				boolean successful = model.rateBook(booksTitle, rating,booksAuthor);  
