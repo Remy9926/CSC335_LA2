@@ -68,6 +68,8 @@ public class Parser {
 	}
 	
 	public int executeCommand(Scanner scanner) {
+		
+		ArrayList<Book> books = new ArrayList<Book>();;
 
 		switch (this.command) {
 			case SEARCH:
@@ -77,16 +79,33 @@ public class Parser {
 				if (searchType.equals("title")) {
 					System.out.println("Please enter the title of the book: ");
 					String title = scanner.nextLine().trim();
+					books = model.searchBooksByTitle(title);
 				}
 				
 				if (searchType.equals("author")) {
 					System.out.println("Please enter the author of the book: ");
 					String author = scanner.nextLine().trim();
+					books = model.searchBooksByAuthor(author);
 				}
 				
 				if (searchType.equals("rating")) {
 					System.out.println("Please enter the rating of the book (1-5): ");
 					int rating = Integer.parseInt(scanner.nextLine().trim());
+					books = model.searchBooksByRating(rating);
+					
+					if (books == null) {
+						System.out.println("Invalid rating given");
+						break;
+					}
+				}
+				
+				if (books.isEmpty()) {
+					System.out.println("No books found that match your criteria");
+				} else {
+					System.out.println("Here are the books that match your criteria: ");
+					for (Book b: books) {
+						System.out.println(b);
+					}
 				}
 				
 				break;
@@ -137,7 +156,7 @@ public class Parser {
 				System.out.print("How would you like to sort your books? (title/author/read/unread): ");
 				String option = scanner.nextLine().toLowerCase(); 
 				
-				ArrayList<Book> books = model.getBooks(option); 
+				books = model.getBooks(option);
 				
 				if (books != null && !books.isEmpty()) {
 					for (Book book : books) {
