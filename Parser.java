@@ -1,18 +1,18 @@
-import java.io.File;
-import java.util.Scanner;
-import java.util.ArrayList;
-
 // File: Parser.java
 // Author(s): Mandy Jiang (user:mandyjiang), Ethan Huang
 // Purpose: Parses the user input to validate and execute commands as necessary
+
+import java.io.File;
+import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Parser {
 	
 	private LibraryModel model;
 	private Command command;
 	
-	public Parser(LibraryModel model) {
-		this.model = model;
+	public Parser() {
+		this.model = new LibraryModel();
 	}
 	
 	public void setCommand(String command) throws NullCommandException {
@@ -122,6 +122,7 @@ public class Parser {
 				break;
 			
 			case SET_TO_READ:
+				//ask user for author of the book too?
 				System.out.print("Please enter the title of the book to mark as read: ");
 				String bookTitle = scanner.nextLine();  
 				System.out.println("Please enter the book author: ");
@@ -137,12 +138,17 @@ public class Parser {
 				
 				
 			case RATE:
+				//ask user for author of the book too?
 				System.out.print("Please enter the title of the book you want to rate: ");
 				String booksTitle = scanner.nextLine();  
+<<<<<<< Updated upstream:Parser.java
 				System.out.print("Please enter the book author: ");
 				String booksAuthor  = scanner.nextLine();
 
 				
+=======
+
+>>>>>>> Stashed changes:src/Parser.java
 				System.out.print("Please enter a rating (1-5): ");
 				int rating;
 				rating = Integer.parseInt(scanner.nextLine()); 

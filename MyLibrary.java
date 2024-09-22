@@ -4,14 +4,17 @@
 
 import java.util.Scanner;
 
+/*
+ * The MyLibrary Class acts as the UI that a user would interact with to manage their
+ * library.It does not contain any methods itself to interact
+ */
 public class MyLibrary {
 	
 	public static void main(String[] args) {
 		showWelcomeMessage();
 		Scanner scanner = new Scanner(System.in);
 		String input = "";
-		LibraryModel model = new LibraryModel();  
-		Parser parser = new Parser(model);
+		Parser parser = new Parser();
 		promptUser();
 		
 		while (scanner.hasNextLine()) {
