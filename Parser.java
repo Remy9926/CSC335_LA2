@@ -1,6 +1,4 @@
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -79,13 +77,13 @@ public class Parser {
 				if (searchType.equals("title")) {
 					System.out.println("Please enter the title of the book: ");
 					String title = scanner.nextLine().trim();
-					books = model.searchBooksByTitle(title);
+					books = model.searchBooksByTitle(title.toLowerCase());
 				}
 				
 				if (searchType.equals("author")) {
 					System.out.println("Please enter the author of the book: ");
 					String author = scanner.nextLine().trim();
-					books = model.searchBooksByAuthor(author);
+					books = model.searchBooksByAuthor(author.toLowerCase());
 				}
 				
 				if (searchType.equals("rating")) {
@@ -125,9 +123,11 @@ public class Parser {
 			
 			case SET_TO_READ:
 				System.out.print("Please enter the title of the book to mark as read: ");
-				String bookTitle = scanner.nextLine();  // Fixed variable name
+				String bookTitle = scanner.nextLine();  
+				System.out.println("Please enter the book author: ");
+				String bookAuthor= scanner.nextLine();
 
-				boolean success = model.setToRead(bookTitle);  // Call to LibraryModel method
+				boolean success = model.setToRead(bookTitle,bookAuthor);  
 				if (success) {
 					System.out.println("Book marked as read.");
 				} else {
@@ -139,11 +139,14 @@ public class Parser {
 			case RATE:
 				System.out.print("Please enter the title of the book you want to rate: ");
 				String booksTitle = scanner.nextLine();  
+				System.out.print("Please enter the book author: ");
+				String booksAuthor  = scanner.nextLine();
+
 				
 				System.out.print("Please enter a rating (1-5): ");
 				int rating;
 				rating = Integer.parseInt(scanner.nextLine()); 
-				boolean successful = model.rateBook(booksTitle, rating);  
+				boolean successful = model.rateBook(booksTitle, rating,booksAuthor);  
 			
 				if (successful) {
 					System.out.println("Book successfully rated.");
@@ -153,7 +156,7 @@ public class Parser {
 				break;
 				
 			case GET_BOOKS:
-				System.out.print("How would you like to sort your books? (title/author/read/unread): ");
+				System.out.print("How would you like to sort your books by? (title/author/read/unread): ");
 				String option = scanner.nextLine().toLowerCase(); 
 				
 				books = model.getBooks(option);
@@ -166,6 +169,7 @@ public class Parser {
 					System.out.println("No books found or sort option invalid.");
 				}
 				break;
+
 				
 			case SUGGEST_READ:
 				Book suggestedBook = model.suggestBook();
@@ -173,29 +177,27 @@ public class Parser {
 				if (suggestedBook == null) {
 					System.out.println("You have already read all books in your library!");
 				} else {
-					System.out.println(suggestedBook);
+					 System.out.println(suggestedBook);
 				}
 				break;
 				
 			case ADD_BOOKS:
 				System.out.println("What is the name of the file that you want to read from?");
 
-				String fileName = scanner.nextLine();
+				String fileName =scanner.nextLine(); 
+				File file = new File(fileName);
 
-				// Access file using getClass().getResourceAsStream() for files inside 'src'
-				InputStream inputStream = getClass().getResourceAsStream("/" + fileName);
-
-				if (inputStream == null) {
-					System.out.println("Sorry, the file you specified does not exist!");
+				if (!file.exists() ) {
+					System.out.println("The file you input does not exist");
 					break;
 				}
 
 				try {
-					Scanner readFile = new Scanner(inputStream);
+					Scanner readFile = new Scanner(file);
 					while (readFile.hasNextLine()) {
 						String line = readFile.nextLine();
 						String[] splitLine = line.split(";");
-						String title1 = splitLine[0];
+						String title1= splitLine[0];
 						String author1 = splitLine[1];
 						Book newBook1 = new Book(title1, author1);
 						model.addBookToLibrary(newBook1);

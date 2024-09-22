@@ -25,21 +25,20 @@ public class LibraryModel {
 	
 		switch (option.trim().toLowerCase()) {
 			case "title":
-				sortedBooks.sort(Comparator.comparing(book -> book.getTitle().toLowerCase()));
+				sortedBooks.sort(Comparator.comparing(book->book.getTitle().toLowerCase()));
 				break;
-	
 			case "author":
-				sortedBooks.sort(Comparator.comparing(book -> book.getAuthor().toLowerCase()));
+				sortedBooks.sort(Comparator.comparing(book->book.getAuthor().toLowerCase()));
 				break;
 	
 			case "read":
 				sortedBooks.removeIf(book -> !book.haveRead());
-				sortedBooks.sort(Comparator.comparing(book -> book.getTitle().toLowerCase()));
+				sortedBooks.sort(Comparator.comparing(book->book.getTitle().toLowerCase()));
 				break;
 	
 			case "unread":
 				sortedBooks.removeIf(Book::haveRead);
-				sortedBooks.sort(Comparator.comparing(book -> book.getTitle().toLowerCase()));
+				sortedBooks.sort(Comparator.comparing(book->book.getTitle().toLowerCase()));
 				break;
 	
 			default:
@@ -48,7 +47,7 @@ public class LibraryModel {
 		}
 		// rerturns copy 
 		ArrayList<Book> sortedBooksCopy = new ArrayList<>();
-		for (Book book : sortedBooks) {
+		for (Book book:sortedBooks) {
 			sortedBooksCopy.add(new Book(book));  
 		}
 	
@@ -57,9 +56,9 @@ public class LibraryModel {
 
 
 
-	public boolean setToRead(String title) {
-        for (Book book : library) {
-            if (book.getTitle().equalsIgnoreCase(title) && !book.haveRead()) {  
+	public boolean setToRead(String title, String author) {
+        for (Book book:library) {
+            if (((book.getTitle().equalsIgnoreCase(title)) && (book.getAuthor().equalsIgnoreCase(author))&& !book.haveRead())) {  
             	book.setToRead();
                 return true;  
             }
@@ -70,14 +69,14 @@ public class LibraryModel {
 
 
 
-	public boolean rateBook(String title, int rating) {
+	public boolean rateBook(String title, int rating, String author) {
         if (rating < 1 || rating > 6) {
             System.out.println("Rating must be between 1 and 5.");
             return false;
         }
 
-        for (Book book : library) {
-            if (book.getTitle().equalsIgnoreCase(title)) {  
+        for (Book book:library) {
+            if ((book.getTitle().equalsIgnoreCase(title)) && book.getAuthor().equalsIgnoreCase(author)) {  
                 book.setRating(rating);
                 return true; 
             }
@@ -89,7 +88,7 @@ public class LibraryModel {
 	public Book suggestBook() {
 		Collections.shuffle(library);
 		
-		for (Book book: library) {
+		for (Book book:library) {
 			if (!book.haveRead()) {
 				return new Book(book);
 			}
@@ -101,7 +100,7 @@ public class LibraryModel {
 		ArrayList<Book> books = new ArrayList<Book>();
 		
 		for (Book b: library) {
-			if (b.getTitle().equals(title)) {
+			if (b.getTitle().toLowerCase().equals(title)) {
 				books.add(new Book(b));
 			}
 		}
@@ -112,7 +111,7 @@ public class LibraryModel {
 		ArrayList<Book> books = new ArrayList<Book>();
 		
 		for (Book b: library) {
-			if (b.getAuthor().equals(title)) {
+			if (b.getAuthor().toLowerCase().equals(title)) {
 				books.add(new Book(b));
 			}
 		}
@@ -132,6 +131,8 @@ public class LibraryModel {
 		}
 		return books;
 	}
+
+
 }
 
 
