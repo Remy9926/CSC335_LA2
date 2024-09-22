@@ -9,6 +9,7 @@
  * of Command that is currently associated with the Parser, which is achieved everytime the
  * user gives input into the UI.
  */
+
 public enum Command {
 	SEARCH,
 	ADD_BOOK,

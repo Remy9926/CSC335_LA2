@@ -13,6 +13,7 @@ import java.util.Scanner;
  * the MyLibrary Class focus on solely the UI and include methods that display messages to
  * the user.
  */
+
 public class MyLibrary {
 	
 	public static void main(String[] args) {
@@ -40,9 +41,18 @@ public class MyLibrary {
 		scanner.close();
 	}
 	
+	/*
+	 * Displays the welcome message to the user
+	 * 
+	 */
+	
 	private static void showWelcomeMessage() {
 		System.out.println("Welcome to your library! Type help for a list of comamnds and exit to quit.");
 	}
+	
+	/*
+	 * Asks the user to input a command for the Parser to read in
+	 */
 	
 	private static void promptUser() {
 		System.out.println("Please input a command to continue: ");

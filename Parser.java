@@ -24,6 +24,16 @@ public class Parser {
 		this.model = new LibraryModel();
 	}
 	
+	/*
+	 * Reads in the input from the user to set the command variable of the parser class
+	 * to be executed in a subsequent step.
+	 * 
+	 * @throws NullCommandException if the user inputs null as the command
+	 * 
+	 * @param command the command that the user inputs to be interpreted by the Parser
+	 * 
+	 */
+	
 	public void setCommand(String command) throws NullCommandException {
 		if (command == null) {
 			throw new NullCommandException(command);
@@ -74,30 +84,42 @@ public class Parser {
 		}
 	}
 	
+	/*
+	 * Executes a command based on what the command instance variable is set to
+	 * from the user's previous command input. If the command variable is set to
+	 * Command.EXIT, then the program will return with 1 to indicate that the user
+	 * wants to exit, which will be interpreted by the MyLibrary Class.
+	 * 
+	 * @param scanner the scanner object to read in user input from stdin
+	 * 
+	 * @return 0 if the user wants to exit, 1 if the user does not want to exit
+	 * 
+	 */
+	
 	public int executeCommand(Scanner scanner) {
 		
-		ArrayList<Book> books = new ArrayList<Book>();;
+		ArrayList<Book> books = new ArrayList<Book>();
 
 		switch (this.command) {
 			case SEARCH:
 				System.out.print("Please enter your search type (title/author/rating): ");
-				String searchType = scanner.nextLine().trim().toLowerCase();
+				String searchType = cleanInput(scanner.nextLine().toLowerCase());
 				
 				if (searchType.equals("title")) {
 					System.out.println("Please enter the title of the book: ");
-					String title = scanner.nextLine().trim();
+					String title = cleanInput(scanner.nextLine());
 					books = model.searchBooksByTitle(title.toLowerCase());
 				}
 				
 				if (searchType.equals("author")) {
 					System.out.println("Please enter the author of the book: ");
-					String author = scanner.nextLine().trim();
+					String author = cleanInput(scanner.nextLine());
 					books = model.searchBooksByAuthor(author.toLowerCase());
 				}
 				
 				if (searchType.equals("rating")) {
 					System.out.println("Please enter the rating of the book (1-5): ");
-					int rating = Integer.parseInt(scanner.nextLine().trim());
+					int rating = Integer.parseInt(cleanInput(scanner.nextLine()));
 					books = model.searchBooksByRating(rating);
 					
 					if (books == null) {
@@ -119,10 +141,10 @@ public class Parser {
 			
 			case ADD_BOOK:
 				System.out.print("Please enter the book's title: ");
-				String title = scanner.nextLine();
+				String title = cleanInput(scanner.nextLine());
 				
 				System.out.print("Please enter the book's author: ");
-				String author = scanner.nextLine();
+				String author = cleanInput(scanner.nextLine());
 
 				Book newBook = new Book(title, author);
 				model.addBookToLibrary(newBook);
@@ -132,10 +154,10 @@ public class Parser {
 			
 			case SET_TO_READ:
 				System.out.print("Please enter the title of the book to mark as read: ");
-				String bookTitle = scanner.nextLine();  
+				String bookTitle = cleanInput(scanner.nextLine());  
 				
 				System.out.println("Please enter the book author: ");
-				String bookAuthor= scanner.nextLine();
+				String bookAuthor= cleanInput(scanner.nextLine());
 
 				boolean success = model.setToRead(bookTitle,bookAuthor);  
 				if (success) {
@@ -148,13 +170,13 @@ public class Parser {
 				
 			case RATE:
 				System.out.print("Please enter the title of the book you want to rate: ");
-				String booksTitle = scanner.nextLine();  
+				String booksTitle =  cleanInput(scanner.nextLine());  
 				
 				System.out.print("Please enter the book author: ");
-				String booksAuthor  = scanner.nextLine();
+				String booksAuthor  = cleanInput(scanner.nextLine());
 				
 				System.out.print("Please enter a rating (1-5): ");
-				int rating = Integer.parseInt(scanner.nextLine()); 
+				int rating = Integer.parseInt(cleanInput(scanner.nextLine())); 
 				boolean successful = model.rateBook(booksTitle, rating,booksAuthor);  
 			
 				if (successful) {
@@ -166,7 +188,7 @@ public class Parser {
 				
 			case GET_BOOKS:
 				System.out.print("How would you like to sort your books by? (title/author/read/unread): ");
-				String option = scanner.nextLine().toLowerCase(); 
+				String option = cleanInput(scanner.nextLine().toLowerCase()); 
 				
 				books = model.getBooks(option);
 				
@@ -193,7 +215,7 @@ public class Parser {
 			case ADD_BOOKS:
 				System.out.println("What is the name of the file that you want to read from?");
 
-				String fileName =scanner.nextLine(); 
+				String fileName = cleanInput(scanner.nextLine()); 
 				File file = new File(fileName);
 
 				if (!file.exists() ) {
@@ -204,7 +226,7 @@ public class Parser {
 				try {
 					Scanner readFile = new Scanner(file);
 					while (readFile.hasNextLine()) {
-						String line = readFile.nextLine();
+						String line = cleanInput(readFile.nextLine());
 						String[] splitLine = line.split(";");
 						String title1= splitLine[0];
 						String author1 = splitLine[1];
@@ -234,10 +256,25 @@ public class Parser {
 		return 0;
 	}
 	
+	/*
+	 * Cleans the user's input so that it doesn't have any leading or trailing whitspace
+	 * 
+	 * @param input the input that is read in from the user
+	 * 
+	 * @return the cleaned user input
+	 * 
+	 */
+	
 	private String cleanInput(String input) {
 		return input.trim();
 	}
 
+	/*
+	 * Displays the help message when the user inputs help to let the user know the list
+	 * of available commands
+	 * 
+	 */
+	
 	private void displayHelpMessage() {
 		System.out.println("All commands are case sensitive!\n");
 		System.out.println("search- specify whether to search by title, author, or rating and the results will be returned to you\n");
