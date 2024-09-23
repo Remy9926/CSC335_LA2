@@ -147,9 +147,14 @@ public class Parser {
 				String author = cleanInput(scanner.nextLine());
 
 				Book newBook = new Book(title, author);
-				model.addBookToLibrary(newBook);
+				boolean added= model.addBookToLibrary(newBook);
+				if (added){
+					System.out.println("Book added successfully: " + newBook);
+
+				}else{
+					System.out.println("Error, cannot be added. Book is already in the library.");
+				}
 				
-				System.out.println("Book added successfully: " + newBook);
 				break;
 			
 			case SET_TO_READ:

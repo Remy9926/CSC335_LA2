@@ -29,8 +29,16 @@ public class LibraryModel {
 	 * 
 	 */
 	
-	public void addBookToLibrary(Book book) {
+	public boolean addBookToLibrary(Book book) {
+		for (Book otherBook : library) {
+			if (otherBook.getTitle().equalsIgnoreCase(book.getTitle()) &&
+				otherBook.getAuthor().equalsIgnoreCase(book.getAuthor())) {
+				return false;  
+			}
+		}
+		
 		library.add(book);
+		return true;
 	}
 
 	
@@ -67,7 +75,6 @@ public class LibraryModel {
 				break;
 	
 			default:
-				System.out.println("Invalid sort option.");
 				return new ArrayList<>();
 		}
 		// rerturns copy 
@@ -117,7 +124,6 @@ public class LibraryModel {
 	
 	public boolean rateBook(String title, int rating, String author) {
         if (rating < 1 || rating > 6) {
-            System.out.println("Rating must be between 1 and 5.");
             return false;
         }
 
