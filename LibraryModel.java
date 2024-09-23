@@ -1,5 +1,5 @@
 // File: Book.java
-// Author(s): Mandy Jiang (mxndyj), Ethan Huang (remy9926)
+// Author(s): Mandy Jiang (mandyjiang), Ethan Huang (ehuang68)
 // Purpose: Models the library on the backend so that the user doesn't directly interact with it
 
 import java.util.ArrayList;

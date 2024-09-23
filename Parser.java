@@ -1,5 +1,5 @@
 // File: Parser.java
-// Author(s): Mandy Jiang (mxndyj), Ethan Huang (remy9926)
+// Author(s): Mandy Jiang (mandyjiang), Ethan Huang (ehuang68)
 // Purpose: Parses the user input to validate and execute commands as necessary
 
 import java.io.File;
