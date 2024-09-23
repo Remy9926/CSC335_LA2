@@ -255,7 +255,7 @@ public class Parser {
 				return 1;
 			
 			default:
-				System.out.println("Sorry, I do not understand your command. Press help for the list of commands.");
+				System.out.println("Sorry, I do not understand your command. Type help for the list of commands.");
 				break;
 		}
 		return 0;
