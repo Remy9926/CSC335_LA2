@@ -2,6 +2,20 @@ Documentation for LA2
 
 Author(s): Mandy Jiang (mandyjiang), Ethan Huang (ehuang68)
 
+Design Choices Overview
+We designed this using the Model View Controller (MVC) pattern to keep everything organized and separated,
+which makes it easier to manage and maintain. 
+
+To manage the various user commands, we implemented an enum for commands. 
+Using enums allows us to clearly define all the possible commands the user can input.
+
+For storing the books in the library, we chose ArrayList because it's flexible as in it grows or shrinks as needed and allows 
+for quick access to any book. To give users more control over how they view their books, we used java.util.Comparator to allow 
+sorting based on different attributes like title, author, and whether a book has been read or unread.
+
+To manage the various user commands, we implemented an enum for commands. Using enums allows us to clearly
+define all the possible commands the user can input.
+
 
 MyLibrary
 The MyLibrary Class represents the text UI that the user can interact with and type commands into
