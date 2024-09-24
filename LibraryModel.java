@@ -58,6 +58,7 @@ public class LibraryModel {
 	
 		switch (option.toLowerCase()) {
 			case "title":
+				//compare books by their titles
 				sortedBooks.sort(Comparator.comparing(book->book.getTitle().toLowerCase()));
 				break;
 			case "author":
@@ -65,7 +66,9 @@ public class LibraryModel {
 				break;
 	
 			case "read":
+				//removes book that have not been read
 				sortedBooks.removeIf(book -> !book.haveRead());
+				//sort by title as the default
 				sortedBooks.sort(Comparator.comparing(book->book.getTitle().toLowerCase()));
 				break;
 	
@@ -99,6 +102,7 @@ public class LibraryModel {
 	
 	public boolean setToRead(String title, String author) {
         for (Book book:library) {
+			//if title and author match
             if (((book.getTitle().equalsIgnoreCase(title)) && (book.getAuthor().equalsIgnoreCase(author))&& !book.haveRead())) {  
             	book.setToRead();
                 return true;  
@@ -124,10 +128,12 @@ public class LibraryModel {
 	
 	public boolean rateBook(String title, int rating, String author) {
         if (rating < 1 || rating > 6) {
+			//validation (1-5)
             return false;
         }
 
         for (Book book:library) {
+			//if title and author matches 
             if ((book.getTitle().equalsIgnoreCase(title)) && book.getAuthor().equalsIgnoreCase(author)) {  
                 book.setRating(rating);
                 return true; 
@@ -150,6 +156,7 @@ public class LibraryModel {
 		Collections.shuffle(library);
 		
 		for (Book book:library) {
+			//returns first unread book in shuffled library
 			if (!book.haveRead()) {
 				return new Book(book);
 			}
@@ -214,7 +221,7 @@ public class LibraryModel {
 			return null;
 		}
 		ArrayList<Book> books = new ArrayList<Book>();
-		
+		// if rating match add to books arrlist
 		for (Book b: library) {
 			if (b.getRating() == rating) {
 				books.add(new Book(b));

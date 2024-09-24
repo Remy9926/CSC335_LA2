@@ -42,6 +42,7 @@ public class Parser {
 		String cleanedCommand = cleanInput(command);
 
 		switch (cleanedCommand) {
+			// map input to correspond enum command
 			case "search":
 				this.command = Command.SEARCH;
 				break;
@@ -104,19 +105,19 @@ public class Parser {
 			case SEARCH:
 				System.out.print("Please enter your search type (title/author/rating): ");
 				String searchType = cleanInput(scanner.nextLine().toLowerCase());
-				
+				//search by title
 				if (searchType.equals("title")) {
 					System.out.println("Please enter the title of the book: ");
 					String title = cleanInput(scanner.nextLine());
 					books = model.searchBooksByTitle(title.toLowerCase());
 				}
-				
+				//search by author
 				if (searchType.equals("author")) {
 					System.out.println("Please enter the author of the book: ");
 					String author = cleanInput(scanner.nextLine());
 					books = model.searchBooksByAuthor(author.toLowerCase());
 				}
-				
+				//search by rating
 				if (searchType.equals("rating")) {
 					System.out.println("Please enter the rating of the book (1-5): ");
 					int rating = Integer.parseInt(cleanInput(scanner.nextLine()));
@@ -165,6 +166,7 @@ public class Parser {
 				String bookAuthor= cleanInput(scanner.nextLine());
 
 				boolean success = model.setToRead(bookTitle,bookAuthor);  
+				//validation 
 				if (success) {
 					System.out.println("Book marked as read.");
 				} else {
@@ -183,7 +185,7 @@ public class Parser {
 				System.out.print("Please enter a rating (1-5): ");
 				int rating = Integer.parseInt(cleanInput(scanner.nextLine())); 
 				boolean successful = model.rateBook(booksTitle, rating,booksAuthor);  
-			
+				// validation
 				if (successful) {
 					System.out.println("Book successfully rated.");
 				} else {
