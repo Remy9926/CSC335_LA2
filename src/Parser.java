@@ -290,6 +290,6 @@ public class Parser {
 		System.out.println("rate- specify the title and author of the book you want to rate from 1-5 with default ratings set to 0\n");
 		System.out.println("getBooks- retrieves all books sorting by title or author, or only read/unread books\n");
 		System.out.println("suggestRead- picks a random unread book from the library\n");
-		System.out.println("addBooks- specify a file name, and all books from that file will be read into the libray\n");
+		System.out.println("addBooks- specify a file name, and all books from that file will be read into the library\n");
 	}
 }

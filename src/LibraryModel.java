@@ -127,7 +127,7 @@ public class LibraryModel {
 	 */
 	
 	public boolean rateBook(String title, int rating, String author) {
-        if (rating < 1 || rating > 6) {
+        if (rating < 1 || rating >= 6) {
 			//validation (1-5)
             return false;
         }
