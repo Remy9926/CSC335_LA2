@@ -1,5 +1,9 @@
 import org.junit.jupiter.api.*;
 import java.util.ArrayList;
+import java.util.Scanner;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LibraryModelTest {
@@ -148,4 +152,237 @@ public class LibraryModelTest {
         
         unreadBooks.forEach(book -> assertFalse(book.haveRead()));
     }
+    
+    @Test
+	public void testParserHelpCommand() {
+		Parser parser = new Parser();
+		Scanner scanner = new Scanner(System.in);
+		
+		try {
+			parser.setCommand("help");
+			parser.executeCommand(scanner);
+			
+		} catch (NullCommandException e) {
+
+		}
+	}
+	
+	@Test
+	public void testInvalidCommand() {
+		Parser parser = new Parser();
+		Scanner scanner = new Scanner(System.in);
+		
+		try {
+			parser.setCommand("nothing");
+			parser.executeCommand(scanner);
+			
+		} catch (NullCommandException e) {
+
+		}
+		
+	}
+	
+	@Test
+	public void testParserThrowException() {
+		Parser parser = new Parser();
+		assertThrows(NullCommandException.class, () -> parser.setCommand(null));
+	}
+	
+	@Test
+	public void emptyLibraryTestParserSearch() {
+		Parser parser = new Parser();
+		Scanner scanner = new Scanner(System.in);
+		
+		try {
+			parser.setCommand("search");
+			System.out.println("(Search by title)");
+			parser.executeCommand(scanner);
+			
+			System.out.println("(Search by author)");
+			parser.executeCommand(scanner);
+			
+			System.out.println("(Search by rating)");
+			parser.executeCommand(scanner);
+		
+		} catch (NullCommandException e) {
+
+		}
+	}
+	
+	@Test
+	public void emptyLibraryTestParserSearchInvalidRating() {
+		Parser parser = new Parser();
+		Scanner scanner = new Scanner(System.in);
+		
+		try {
+			parser.setCommand("search");
+			System.out.println("(Search by rating with an invalid number)");
+			parser.executeCommand(scanner);
+
+		} catch (NullCommandException e) {
+
+		}
+		
+	}
+	
+	@Test
+	public void testSuggestRead() {
+		Parser parser = new Parser();
+		Scanner scanner = new Scanner(System.in);
+		
+		try {
+			parser.setCommand("suggestRead");
+			parser.executeCommand(scanner);
+			
+			System.out.println("(addBook with any details you want, and it should be returned below)");
+			parser.setCommand("addBook");
+			parser.executeCommand(scanner);
+			
+			parser.setCommand("suggestRead");
+			parser.executeCommand(scanner);
+			
+		} catch (NullCommandException e) {
+
+		}
+	}
+	
+	@Test
+	public void testParserNonEmptyLibrary() {
+		Parser parser = new Parser();
+		Scanner scanner = new Scanner(System.in);
+		
+		try {
+			parser.setCommand("setToRead");
+			System.out.println("(Book does not exist so you can add anything)");
+			parser.executeCommand(scanner);
+			
+			parser.setCommand("rate");
+			System.out.println("(Book does not exist so you can add anything)");
+			parser.executeCommand(scanner);
+			
+			parser.setCommand("addBook");
+			System.out.println("(addBook)");
+			parser.executeCommand(scanner);
+			
+			parser.setCommand("setToRead");
+			System.out.println("(Use the details you added above)");
+			parser.executeCommand(scanner);
+
+			parser.setCommand("rate");
+			System.out.println("(Use the details you added above)");
+			parser.executeCommand(scanner);
+			
+			parser.setCommand("rate");
+			System.out.println("(Do the same as above, but input an invalid rating)");
+			parser.executeCommand(scanner);
+
+		
+		} catch (NullCommandException e) {
+
+		}
+	}
+	
+	@Test
+	public void testParserExit() {
+		Parser parser = new Parser();
+		Scanner scanner = new Scanner(System.in);
+		
+		try {
+			parser.setCommand("exit");
+			assertEquals(1, parser.executeCommand(scanner));
+		
+		} catch (NullCommandException e) {
+
+		}		
+	}
+	
+	@Test
+	public void testNonEmptyLibrarySearch() {
+		Parser parser = new Parser();
+		Scanner scanner = new Scanner(System.in);
+		
+		try {
+			parser.setCommand("addBook");
+			System.out.println("(addBook then search for it given any of the criteria)");
+			parser.executeCommand(scanner);
+			
+			parser.setCommand("search");
+			System.out.println("(Search for the book you just added by title)");
+			parser.executeCommand(scanner);
+			
+			System.out.println("(Search for the book you just added by author)");
+			parser.executeCommand(scanner);
+			
+			parser.setCommand("rate");
+			System.out.println("(Give the book a rating from 1-5)");
+			parser.executeCommand(scanner);
+			
+			parser.setCommand("search");
+			System.out.println("(Search for the book you just added by the rating you gave it)");
+			parser.executeCommand(scanner);
+
+			
+		} catch (NullCommandException e) {
+
+		}
+	}
+	
+	@Test
+	public void getBooksTest() {
+		Parser parser = new Parser();
+		Scanner scanner = new Scanner(System.in);
+		
+		try {
+			parser.setCommand("getBooks");
+			System.out.println("(Library is empty so nothing should be returned)");
+			parser.executeCommand(scanner);
+			
+			System.out.println("(Choose an invalid search option)");
+			parser.executeCommand(scanner);
+			
+			parser.setCommand("addBook");
+			System.out.println("(addBook and search for it with its details below)");
+			parser.executeCommand(scanner);
+			
+			parser.setCommand("getBooks");
+			System.out.println("(Choose title)");
+			parser.executeCommand(scanner);
+			
+			System.out.println("(Choose author)");
+			parser.executeCommand(scanner);
+			
+			System.out.println("(Choose unread)");
+			parser.executeCommand(scanner);
+			
+			parser.setCommand("setToRead");
+			System.out.println("(Set the book you added to read)");
+			parser.executeCommand(scanner);
+			
+			parser.setCommand("getBooks");
+			System.out.println("(Choose read)");
+			parser.executeCommand(scanner);
+			
+		} catch (NullCommandException e) {
+
+		}
+	}
+	
+	@Test
+	public void addBooksTest() {
+		Parser parser = new Parser();
+		Scanner scanner = new Scanner(System.in);
+		
+		try {
+			parser.setCommand("addBooks");
+			
+			System.out.println("Input an invalid file name");
+			parser.executeCommand(scanner);
+			
+			System.out.println("Input a valid file name to read from");
+			parser.executeCommand(scanner);
+			
+		} catch (NullCommandException e) {
+
+		}
+	}
 }
