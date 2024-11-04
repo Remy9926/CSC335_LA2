@@ -1,5 +1,8 @@
 import org.junit.jupiter.api.*;
 import java.util.ArrayList;
+import java.util.Scanner;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LibraryModelTest {
@@ -10,10 +13,11 @@ public class LibraryModelTest {
     private Book book3;
 
     @BeforeEach
-    public void setUp() {
+    public void start() {
         library = new LibraryModel();
         book1 = new Book("The Cat in the Hat", "Dr Seuss");
         book2 = new Book("Green Eggs and Ham", "Dr Seuss");
+        
         book3 = new Book("Oh, the Places You'll Go!", "Dr Seuss");
     }
 
@@ -26,17 +30,18 @@ public class LibraryModelTest {
     @Test
     public void testGetBooksTitle() {
         library.addBookToLibrary(book1);
-        library.addBookToLibrary(book2);
-        
+        library.addBookToLibrary(book2) ;
         ArrayList<Book> sortedBooks = library.getBooks("title");
         assertEquals(2, sortedBooks.size()) ;
         assertTrue(sortedBooks.get(0).getTitle().equalsIgnoreCase("Green Eggs and Ham"));
         assertTrue(sortedBooks.get(1).getTitle().equalsIgnoreCase("The Cat in the Hat"));
     }
 
+    
+    
     @Test
     public void testGetBooksAuthor() {
-        library.addBookToLibrary(book1);
+        library.addBookToLibrary(book1) ;
         library.addBookToLibrary(book2);
         
         ArrayList<Book> sortedBooks = library.getBooks("author");
@@ -58,8 +63,8 @@ public class LibraryModelTest {
     @Test
     public void testSetBookToRead() {
         library.addBookToLibrary(book1);
-        assertTrue(library.setToRead("the cat in the hat", "dr seuss"));
-        assertFalse(library.setToRead("Nonexistent Book", "Unknown"));
+        assertTrue(library.setToRead( "the cat in the hat", "dr seuss"));
+        assertFalse(library.setToRead("Nonexistent Book", "who knows"));
     }
 
     @Test
@@ -67,8 +72,8 @@ public class LibraryModelTest {
         library.addBookToLibrary(book1);
         assertTrue(library.rateBook("The Cat in the Hat", 4, "Dr Seuss"));
         assertEquals(4, book1.getRating());
-        assertFalse(library.rateBook("The Cat in the Hat", 6, "Dr Seuss"));
-        assertFalse(library.rateBook("Nonexistent Book", 4, "Unknown"));
+        assertFalse(library.rateBook( "The Cat in the Hat", 6, "Dr Seuss") );
+        assertFalse(library.rateBook("Nonexistent Book", 4, "who knows"));
     }
 
     @Test
@@ -148,4 +153,45 @@ public class LibraryModelTest {
         
         unreadBooks.forEach(book -> assertFalse(book.haveRead()));
     }
+    
+    @Test
+	public void testParserHelpCommand() {
+		Parser parser = new Parser();
+		Scanner scanner = new Scanner(System.in);
+		
+		try {
+			parser.setCommand("help");
+			parser.executeCommand(scanner);
+			
+		} catch (NullCommandException e) {
+
+		}
+	}
+	
+	@Test
+	public void testInvalidCommand() {
+		Parser parser = new Parser();
+		Scanner scanner = new Scanner(System.in);
+		
+		try {
+			parser.setCommand("nothing");
+			parser.executeCommand(scanner);
+			
+		} catch (NullCommandException e){
+
+		}
+		
+	}
+	
+	
+	  @Test
+	    public void testNullCommandExceptionThrow() {
+	        Exception exception = assertThrows(NullCommandException.class, () -> {
+	            throw new NullCommandException(null);
+	        });
+
+	        assertEquals("You cannot input null as the command!", exception.getMessage());
+	    }
+	
+	
 }
