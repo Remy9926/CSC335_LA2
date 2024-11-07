@@ -176,14 +176,13 @@ public class LibraryModelTest {
 		try {
 			parser.setCommand("nothing");
 			parser.executeCommand(scanner);
-			
+
 		} catch (NullCommandException e){
 
-		}
-		
+    }
 	}
 	
-	
+
 	  @Test
 	    public void testNullCommandExceptionThrow() {
 	        Exception exception = assertThrows(NullCommandException.class, () -> {
