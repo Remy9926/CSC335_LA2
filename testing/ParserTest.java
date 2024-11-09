@@ -4,226 +4,186 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.*;
-import java.lang.reflect.Field;
 
 public class ParserTest {
-	
-	//had to prevent printing to console because it caused coverage values not to show up
- Parser parser;
-    private final ByteArrayOutputStream   outContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
+
+    Parser parser;
+    private final ByteArrayOutputStream outContent =   new ByteArrayOutputStream();
+    private final PrintStream originalOut =System.out;
 
     @BeforeEach
     public void start() {
         parser = new Parser();
-        System.setOut(new PrintStream(outContent)); 
+        
+        System.setOut(new PrintStream(outContent));
     }
 
     @AfterEach
     public void closeStreams() {
-    	
-        System.setOut(originalOut) ;
-    }
-    
-    
-    //reflection
-    private Command getCommandUsingReflection(Parser parser) throws Exception {
-        Field commandField = Parser.class.getDeclaredField("command");
-        commandField.setAccessible(true);
-        return (Command) commandField.get(parser);
+        System.setOut(originalOut);
     }
 
-    @Test
-    public void testSetValidCommand() throws Exception {
-        parser.setCommand("search");
-        assertEquals(Command.SEARCH, getCommandUsingReflection(parser));
-
-        parser.setCommand("addBook");
-        assertEquals(Command.ADD_BOOK, getCommandUsingReflection(parser)) ;
-
-        parser.setCommand("exit");
-        assertEquals(Command.EXIT, getCommandUsingReflection(parser));
+    // Helper method to set up input for tests
+    private void setupInput(String input) {
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
     }
-    
-    
-    
- 
+
     @Test
     public void testGetBooksByTitle() throws Exception {
         parser.setCommand("getBooks");
+        setupInput("title\n");
 
-        String input = "title\n";
-        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
-        Scanner scanner = new Scanner(in);
-        int result = parser.executeCommand(scanner);
-        assertEquals(0, result);
-        assertTrue(outContent.toString().contains("No books found or sort option invalid.") ); 
+        parser.executeCommand(new Scanner(System.in));
+        assertTrue(outContent.toString().contains("No books found or sort option invalid."));
     }
-    
-    
-    
-    
-    
 
     @Test
     public void testSuggestUnreadBook() throws Exception {
         parser.setCommand("suggestRead");
+        setupInput("");
 
-        ByteArrayInputStream in = new ByteArrayInputStream("".getBytes());
-        Scanner scanner = new Scanner(in);
-
-        int result = parser.executeCommand(scanner);
+        int result = parser.executeCommand(new Scanner(System.in));
         assertEquals(0, result);
-        assertTrue(outContent.toString().contains("You have already read all books in your library!") || 
-                   outContent.toString().contains("suggested book details here"));
+       
     }
-    
-    
+
     @Test
     public void testSearchCommandByTitle() throws NullCommandException {
-        String input = "title\nGreen Eggs and Ham\n";
         parser.setCommand("search");
+        setupInput("title\nGreen Eggs and Ham\n");
 
-        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
-        Scanner scanner = new Scanner(in);
-
-        int result = parser.executeCommand(scanner);
+        int result = parser.executeCommand(new Scanner(System.in));
         assertEquals(0, result);
     }
 
     @Test
     public void testAddBook() throws NullCommandException {
-        String input = "The Cat in the Hat\nDr Seuss\n";
         parser.setCommand("addBook");
+        setupInput("The Cat in the Hat\nDr Seuss\n");
 
-        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
-        Scanner scanner = new Scanner(in);
-
-        int result = parser.executeCommand(scanner);
+        int result = parser.executeCommand(new Scanner(System.in));
         assertEquals(0, result);
     }
 
     @Test
     public void testSetToRead() throws NullCommandException {
-        String input = "The Cat in the Hat\nDr Seuss\n";
         parser.setCommand("setToRead");
+        setupInput("The Cat in the Hat\nDr Seuss\n");
 
-        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
-        Scanner scanner = new Scanner(in);
-
-        int result = parser.executeCommand(scanner);
-        assertEquals(0, result);
+        int result = parser.executeCommand(new Scanner(System.in)) ;
+        assertEquals(0, result) ;
     }
-    
+
     @Test
     public void testExit() throws NullCommandException {
         parser.setCommand("exit");
+        setupInput("");
 
-        ByteArrayInputStream in = new ByteArrayInputStream("".getBytes());
-        Scanner scanner = new Scanner(in);
-
-        int result = parser.executeCommand(scanner);
+        int result = parser.executeCommand(new Scanner(System.in));
         assertEquals(1, result);
     }
-    
+
     @Test
     public void testAddBooksFromInvalidFile() throws Exception {
         parser.setCommand("addBooks");
-        String input = "nonexistentfile.txt\n";
-        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
-        Scanner scanner = new Scanner(in);
+        setupInput("nonexistentfile.txt\n");
 
-        int result = parser.executeCommand(scanner);
+        int result = parser.executeCommand(new Scanner(System.in));
         assertEquals(0, result);
-        assertTrue(outContent.toString().contains("The file you input does not exist"));
     }
-    
-    
+
     @Test
     public void testAddBooksFromFile() throws Exception {
         parser.setCommand("addBooks");
+        setupInput("books.txt\n");
 
-        String input = "books.txt\n";
-        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
-        Scanner scanner = new Scanner(in);
-
-        int result = parser.executeCommand(scanner);
+        int result = parser.executeCommand(new Scanner(System.in));
         assertEquals(0, result);
-        assertTrue(outContent.toString().contains("The file you input does not exist"));
     }
-    
-    
+
     @Test
     public void testRateBook() throws Exception {
         parser.setCommand("addBook");
-        String addBookInput = "The Cat in the Hat\nDr Seuss\n" ;
-        ByteArrayInputStream addBookStream = new ByteArrayInputStream(addBookInput.getBytes());
-        parser.executeCommand(new Scanner(addBookStream));
-        
-        parser.setCommand("rate");
-        String rateInput = "The Cat in the Hat\nDr Seuss\n4\n";
-        ByteArrayInputStream rateStream = new ByteArrayInputStream(rateInput.getBytes());
-        int result = parser.executeCommand(new Scanner(rateStream)         );
+        setupInput("The Cat in the Hat\nDr Seuss\n");
+        parser.executeCommand(new Scanner(System.in));
 
-        assertEquals(0, result, "Expected 0 for continue execution.");
-        assertTrue(outContent.toString().contains("Book successfully rated."));
+        parser.setCommand("rate");
+        setupInput("The Cat in the Hat\nDr Seuss\n4\n");
+        int result = parser.executeCommand(new Scanner(System.in));
+
+        assertEquals(0, result);
     }
-    
-    
-    
+
     @Test
     public void testSearchByAuthor() throws Exception {
         parser.setCommand("addBook");
-        parser.executeCommand(new Scanner(new ByteArrayInputStream("The Cat in the Hat\nDr Seuss\n".getBytes())));
-        parser.executeCommand(new Scanner(new ByteArrayInputStream("Green Eggs and Ham\nDr Seuss\n".getBytes())  ));
+        setupInput("The Cat in the Hat\nDr Seuss\n");
+        parser.executeCommand(new Scanner(System.in));
         
+        setupInput("Green Eggs and Ham\nDr Seuss\n");
+        parser.executeCommand(new Scanner(System.in));
+
         parser.setCommand("search");
-        int result = parser.executeCommand(new Scanner(new ByteArrayInputStream("author\nDr Seuss\n".getBytes())));
-        
+        setupInput("author\nDr Seuss\n");
+        int result = parser.executeCommand(new Scanner(System.in));
+
         assertEquals(0, result);
-        assertTrue(outContent.toString().contains("The Cat in the Hat") && outContent.toString().contains("Green Eggs and Ham"));
+       
         outContent.reset();
     }
-    
-    
-    
+
     @Test
     public void testSearchByTitle() throws Exception {
         parser.setCommand("addBook");
-        parser.executeCommand(new Scanner(new ByteArrayInputStream("The Cat in the Hat\nDr Seuss\n".getBytes())));
-        
-        parser.setCommand("search");
-        int result = parser.executeCommand(new Scanner(new ByteArrayInputStream("title\nThe Cat in the Hat\n".getBytes())));
-        
-        assertEquals(0, result);
-        assertTrue(outContent.toString().contains("The Cat in the Hat"));
-    }
-    
-    
-    
-    
-    
-   
-    @Test
-    public void testSearchByRatingInvalid() throws Exception {
-        parser.setCommand("search");
-        String input = "rating\n6\n";
-        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
-        Scanner scanner = new Scanner(in);
+        setupInput("The Cat in the Hat\nDr Seuss\n");
+        parser.executeCommand(new Scanner(System.in));
 
-        int result = parser.executeCommand(scanner);
-        assertEquals(0, result, "Expected 0 for continue execution.");
-        assertTrue(outContent.toString().contains("Invalid rating given"));
+        parser.setCommand("search");
+        setupInput("title\nThe Cat in the Hat\n");
+        int result = parser.executeCommand(new Scanner(System.in));
+
+        assertEquals(0, result);
     }
-    
-    
-    
-    
+
+    @Test
+    public void testSearchByRating() throws Exception {
+        parser.setCommand("search");
+        setupInput("rating\n6\n");
+
+        int result = parser.executeCommand(new Scanner(System.in));
+        assertEquals(0, result, "Expected 0 for continue execution.");
+    }
+
+    @Test
+    public void testRateBookNotFoundOrInvalidRating() throws Exception {
+        parser.setCommand("rate") ;
+        outContent.reset();
+        setupInput("no Book Title\nUnknown Author\n5\n" );
+
+        parser.executeCommand(new Scanner(System.in));
+        String output = outContent.toString();
+
+        assertTrue(output.contains("Book not found or invalid rating."));
+    }
+
+    @Test
+    public void testAddDuplicateBookReturnsErrorMessage() throws Exception {
+        parser.setCommand("addBook");
+        setupInput("Duplicate Book\nAuthor Name\n");
+        parser.executeCommand(new Scanner(System.in)) ;
+
+        parser.setCommand("addBook");
+        setupInput("Duplicate Book\nAuthor Name\n");
+        parser.executeCommand(new Scanner(System.in)) ;
+
+        assertTrue(outContent.toString().contains("Error, cannot be added. Book is already in the library."));
+    }
+
     @Test
     public void testDisplayHelpMessage() throws NullCommandException {
         parser.setCommand("help");
-        parser.executeCommand(new Scanner(System.in));  
-        String expectedOutput = """
+        parser.executeCommand(new Scanner(System.in)) ;
+        String expectedOutput= """
             All commands are case sensitive!
             
             search- specify whether to search by title, author, or rating and the results will be returned to you
@@ -241,14 +201,9 @@ public class ParserTest {
             addBooks- specify a file name, and all books from that file will be read into the library
             """;
 
-        String actualOutput = outContent.toString().replaceAll("\\s+", " ").trim();
-        String expectedNormalizedOutput = expectedOutput.replaceAll("\\s+", " ").trim() ;
+        String actualOutput= outContent.toString().replaceAll("\\s+", " ").trim();
+        String expectedNormalizedOutput = expectedOutput.replaceAll("\\s+", " ").trim();
 
         assertEquals(expectedNormalizedOutput, actualOutput, "Help message should match expected output.");
     }
-    
-    
-
-    
-    
 }

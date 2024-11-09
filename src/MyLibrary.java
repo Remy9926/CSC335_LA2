@@ -46,8 +46,10 @@ public class MyLibrary {
 	 * 
 	 */
 	
-	private static void showWelcomeMessage() {
+	private static String showWelcomeMessage() {
 		System.out.println("Welcome to your library! Type help for a list of comamnds and exit to quit.");
+		return "Welcome to your library! Type help for a list of commands and exit to quit.";
+
 	}
 	
 	/*
