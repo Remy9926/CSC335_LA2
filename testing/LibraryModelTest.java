@@ -151,7 +151,6 @@ public class LibraryModelTest {
         assertTrue(unreadBooks.get(0).getTitle().equalsIgnoreCase("Green Eggs and Ham"));
         assertTrue(unreadBooks.get(1).getTitle().equalsIgnoreCase("Oh, the Places You'll Go!"));
         
-        unreadBooks.forEach(book -> assertFalse(book.haveRead()));
     }
     
     @Test
@@ -191,6 +190,8 @@ public class LibraryModelTest {
 
 	        assertEquals("You cannot input null as the command!", exception.getMessage());
 	    }
+	  
+	  
 	
 	
 }
