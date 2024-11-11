@@ -1,9 +1,15 @@
+package testing;
+
 import org.junit.jupiter.api.*;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
+
+import src.LibraryModel;
+import src.Book;
+import src.NullCommandException;
+import src.Parser;
 
 public class LibraryModelTest {
 

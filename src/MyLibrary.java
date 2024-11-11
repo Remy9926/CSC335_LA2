@@ -1,6 +1,10 @@
+package src;
+
+
 // File: Book.java
 // Author(s): Mandy Jiang (mandyjiang), Ethan Huang (ehuang68)
 // Purpose: Main Text UI of the library that users will interact with
+
 
 import java.util.Scanner;
 

@@ -1,3 +1,5 @@
+package src;
+
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -6,11 +8,16 @@ import java.util.Scanner;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class GUI {
-    private static LibraryModel libraryModel = new LibraryModel();
-    private static JPanel bookDisplayPanel;
+public class GUI extends JFrame {
+	private LibraryModel libraryModel;
+    private JPanel bookDisplayPanel;
+    
+    public GUI(LibraryModel libraryModel) {
+    	this.libraryModel = libraryModel;
+    	setUp();
+    }
 
-    public static void main(String[] args) {
+    private void setUp() {
         JFrame mainFrame = new JFrame("Library");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(800, 500);
@@ -23,9 +30,9 @@ public class GUI {
         JPanel topPanel = createTopPanel();
         topPanel.setBounds(0, 0, 800, 50);
         mainFrame.add(topPanel);
-        bookDisplayPanel = new JPanel();
-        bookDisplayPanel.setLayout(new BoxLayout(bookDisplayPanel, BoxLayout.Y_AXIS));
-        JScrollPane scrollPane = new JScrollPane(bookDisplayPanel);
+        this.bookDisplayPanel = new JPanel();
+        this.bookDisplayPanel.setLayout(new BoxLayout(this.bookDisplayPanel, BoxLayout.Y_AXIS));
+        JScrollPane scrollPane = new JScrollPane(this.bookDisplayPanel);
         scrollPane.setBounds(0, 50, 800, 375);
         scrollPane.setBorder(BorderFactory.createTitledBorder("Library Books"));
         mainFrame.add(scrollPane);
@@ -33,7 +40,7 @@ public class GUI {
         mainFrame.setVisible(true);
     }
 
-    private static JPanel createButtonPanel() {
+    private JPanel createButtonPanel() {
         JPanel buttonPanel = new JPanel();
         JButton addButton = new JButton("Add");
         JButton rateButton = new JButton("Rate");
@@ -51,7 +58,7 @@ public class GUI {
         return buttonPanel;
     }
 
-    private static JPanel createTopPanel() {
+    private JPanel createTopPanel() {
         String[] sortByOptions = {"Title", "Author", "Rating"};
 
         JPanel topPanel = new JPanel();
@@ -76,7 +83,7 @@ public class GUI {
         return topPanel;
     }
 
-    private static void setupImportBooksButton(JButton importButton) {
+    private void setupImportBooksButton(JButton importButton) {
         importButton.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setFileFilter(new FileNameExtensionFilter("Text Files", "txt"));
@@ -109,8 +116,8 @@ public class GUI {
         });
     }
 
-    private static void displayBooks(ArrayList<Book> books) {
-        bookDisplayPanel.removeAll();
+    public void displayBooks(ArrayList<Book> books) {
+        this.bookDisplayPanel.removeAll();
         for (Book book : books) {
             JPanel bookPanel = new JPanel(new GridLayout(1, 4));
             bookPanel.setBorder(BorderFactory.createLineBorder(Color.gray));
@@ -119,10 +126,10 @@ public class GUI {
             bookPanel.add(new JLabel("Author: " + book.getAuthor()));
             bookPanel.add(new JLabel("Status: " + (book.haveRead() ? "Read" : "Unread")));
             bookPanel.add(new JLabel("Rating: " + book.getRating()));
-            bookDisplayPanel.add(bookPanel);
+            this.bookDisplayPanel.add(bookPanel);
         }
-        bookDisplayPanel.revalidate();
-        bookDisplayPanel.repaint();
+        this.bookDisplayPanel.revalidate();
+        this.bookDisplayPanel.repaint();
     }
 }
 

@@ -1,3 +1,5 @@
+package src;
+
 // File: Parser.java
 // Author(s): Mandy Jiang (mandyjiang), Ethan Huang (ehuang68)
 // Purpose: Parses the user input to validate and execute commands as necessary
@@ -19,9 +21,11 @@ public class Parser {
 	
 	private LibraryModel model;
 	private Command command;
+	private GUI gui;
 	
 	public Parser() {
 		this.model = new LibraryModel();
+		this.gui = new GUI(this.model);
 	}
 	
 	/*

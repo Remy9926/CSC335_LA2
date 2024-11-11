@@ -1,3 +1,5 @@
+package testing;
+
 import org.junit.jupiter.api.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -5,10 +7,12 @@ import java.io.PrintStream;
 import java.lang.reflect.Method;
 import static org.junit.jupiter.api.Assertions.*;
 
+import src.MyLibrary;
+
 public class MyLibraryTest {
 
     private final ByteArrayOutputStream outContent= new ByteArrayOutputStream();
-    private final PrintStream silentOut =new   PrintStream(outContent);
+    private final PrintStream silentOut = new PrintStream(outContent);
     private final PrintStream originalOut =System.out;
     private final PrintStream originalErr = System.err;
 
