@@ -104,16 +104,70 @@ public class GUI implements ActionListener {
         JButton searchButton = new JButton("Search");
         JButton suggestButton = new JButton("Suggest Book");
         JButton helpButton = new JButton("Help");
+        JButton sortButton = new JButton("Sort");
         JTextField searchTextField = new JTextField();
         JLabel sortByLabel = new JLabel("Sort By:");
         JComboBox<String> sortBy = new JComboBox<>(sortByOptions);
 
-        sortByPanel.add(sortByLabel);
-        sortByPanel.add(sortBy);
-
+        sortByPanel.add(sortButton);
+        
+        sortButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		String sortOption = ((String) sortBy.getSelectedItem()).toLowerCase();
+        		try {
+        			parser.setCommand(((JButton) e.getSource()).getName());
+        			String[] args = {sortOption};
+        			ArrayList<Book> books = parser.getBooksGUI(args);
+        			
+        			if (books == null || books.isEmpty()) {
+        				books = new ArrayList<Book>();
+            			displayBooks(books);
+        				JOptionPane.showMessageDialog(null, "No books found.");
+        			}
+        			displayBooks(books);
+        		}
+        		catch (NullCommandException exception) {
+        			System.out.println(exception);
+        		}
+        	}
+        });
+        
+        sortButton.setName("getBooks");
+        searchButton.setName("search");
+        
         searchTextField.setPreferredSize(new Dimension(200, 24));
         searchButtonPanel.add(searchTextField);
+        searchButtonPanel.add(sortByLabel);
+        searchButtonPanel.add(sortBy);
         searchButtonPanel.add(searchButton);
+        
+        searchButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		String sortOption = ((String) sortBy.getSelectedItem()).toLowerCase();
+        		String searchQuery = searchTextField.getText().trim().toLowerCase();
+        		
+        		if (searchQuery.equals("")) {
+    				JOptionPane.showMessageDialog(null, "Field cannot be empty.");
+    				return;
+        		}
+        		
+        		try {
+        			parser.setCommand(((JButton) e.getSource()).getName());
+        			String[] args = {sortOption, searchQuery};
+        			ArrayList<Book> books = parser.searchGUI(args);
+        			
+        			if (books == null || books.isEmpty()) {
+        				books = new ArrayList<Book>();
+            			displayBooks(books);
+        				JOptionPane.showMessageDialog(null, "No books found.");
+        			}
+        			displayBooks(books);
+        		}
+        		catch (NullCommandException exception) {
+        			System.out.println(exception);
+        		}
+        	}
+        });
 
         suggestButton.addActionListener(this);
         suggestButton.setName("suggestRead");
@@ -182,16 +236,21 @@ public class GUI implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		boolean validEvent = false;
+		boolean validEvent = true;
 		String title = this.bookTitle.getText();
 		String author = this.bookAuthor.getText();
 		String rating = this.bookRating.getText();
 		String command = ((JButton) e.getSource()).getName();
 		
-		if (command.equals("help") || command.equals("suggestRead")) {
-			validEvent = true;
-		} else if (title.equals("") || author.equals("") || (command.equals("rate") && rating.equals(""))) {
-			JOptionPane.showMessageDialog(null, "Fields cannot be empty!");
+		System.out.println(command);
+		if ((title.equals("") || author.equals("")) && (command.equals("addBook") || command.equals("setToRead"))) {
+			JOptionPane.showMessageDialog(null, "Title and Author fields cannot be empty!");
+			validEvent = false;
+		}
+		
+		if (command.equals("rate") && rating.trim().equals("")) {
+			JOptionPane.showMessageDialog(null, "Rating field cannot be empty!");
+			validEvent = false;
 		}
 		
 		if (validEvent) {
@@ -201,6 +260,7 @@ public class GUI implements ActionListener {
 				String[] args = {title, author, rating};
 				System.out.println(title + " " + author + " " + rating);
 				String returnMessage = parser.executeCommandGUI(args);
+				displayBooks(libraryModel.getBooks("title"));
 				JOptionPane.showMessageDialog(null, returnMessage);
 				//complete the executeCommandGUI method to implement
 				//each functionality but via gui
