@@ -271,10 +271,6 @@ public class Parser {
 		ArrayList<Book> books = new ArrayList<Book>();
 
 		switch (this.command) {
-			case SEARCH:
-				//TODO: change this
-				break;
-			
 			case ADD_BOOK:
 				Book newBook = new Book(args[0], args[1]);
 				boolean bookIsAdded = model.addBookToLibrary(newBook);
@@ -302,18 +298,7 @@ public class Parser {
 				}
 				
 				return "Invalid rating given or book does not exist.";
-				
-			case GET_BOOKS:
-				//TODO: change this
-				
-				if (books != null && !books.isEmpty()) {
-					for (Book book : books) {
-						System.out.println(book); 
-					}
-				} else {
-					System.out.println("No books found or sort option invalid.");
-				}
-				
+
 			case SUGGEST_READ:
 				Book suggestedBook = model.suggestBook();
 				
@@ -329,8 +314,24 @@ public class Parser {
 			default:
 				return "Sorry, I do not understand your command. Type help for the list of commands.";
 		}
-		//TODO: change this
-		return null;
+	}
+	
+	public ArrayList<Book> searchGUI(String[] args) {
+		if (args[0].equals("title")) {
+			return model.searchBooksByTitle(args[1]);
+		}
+		
+		else if (args[0].equals("author")) {
+			return model.searchBooksByAuthor(args[1]);
+		}
+		
+		return model.searchBooksByRating(Integer.parseInt(args[1]));
+	}
+	
+	public ArrayList<Book> getBooksGUI(String[] args) {
+		String option = args[0].toLowerCase();
+		
+		return model.getBooks(option);
 	}
 	
 	/*
@@ -365,12 +366,12 @@ public class Parser {
 	
 	private String helpMessage() {
 		return "All commands are case sensitive!\n" + 
-	"search- specify whether to search by title, author, or rating and the results will be returned to you\n" +
-	"addBook- specify the title, author, rating, and whether or not you have read the book and adds it to your library\n" +
-	"setToRead- specify the title and author of the book you want to set to read\n" +
-	"rate- specify the title and author of the book you want to rate from 1-5 with default ratings set to 0\n" +
-	"getBooks- retrieves all books sorting by title or author, or only read/unread books\n" +
-	"suggestRead- picks a random unread book from the library\n" +
-	"addBooks- specify a file name, and all books from that file will be read into the library\n";
+	"Search- specify whether to search by title, author, or rating and the results will be returned to you\n" +
+	"Sort- retrieves all books sorting by title or author, or only read/unread books\n" +
+	"Suggest Book- picks a random unread book from the library\n" +
+	"Add Book- specify the title and author and add it to your library\n" +
+	"Rate Book- specify the title and author of the book you want to rate from 1-5\n" +
+	"Set To Read- specify the title and author of the book you want to set to read\n" +
+	"Import Books- select a file and all books from that file will be read into the library\n";
 	}
 }
