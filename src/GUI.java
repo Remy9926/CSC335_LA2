@@ -56,8 +56,8 @@ public class GUI implements ActionListener {
     	JLabel authorLabel = new JLabel("Author:");
     	JLabel ratingLabel = new JLabel("Rating (1-5): ");
         JPanel buttonPanel = new JPanel();
-        JButton addButton = new JButton("Add");
-        JButton rateButton = new JButton("Rate");
+        JButton addButton = new JButton("Add Book");
+        JButton rateButton = new JButton("Rate Book");
         JButton setToReadButton = new JButton("Set To Read");
         JButton importButton = new JButton("Import Books");
 
@@ -102,6 +102,8 @@ public class GUI implements ActionListener {
         JPanel searchButtonPanel = new JPanel();
         JPanel sortByPanel = new JPanel();
         JButton searchButton = new JButton("Search");
+        JButton suggestButton = new JButton("Suggest Book");
+        JButton helpButton = new JButton("Help");
         JTextField searchTextField = new JTextField();
         JLabel sortByLabel = new JLabel("Sort By:");
         JComboBox<String> sortBy = new JComboBox<>(sortByOptions);
@@ -113,9 +115,18 @@ public class GUI implements ActionListener {
         searchButtonPanel.add(searchTextField);
         searchButtonPanel.add(searchButton);
 
+        suggestButton.addActionListener(this);
+        suggestButton.setName("suggestRead");
+        
+        helpButton.addActionListener(this);
+        helpButton.setName("help");
+        
         topPanel.add(searchButtonPanel);
         topPanel.add(sortByPanel);
+        topPanel.add(suggestButton);
+        topPanel.add(helpButton);
         topPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        
 
         return topPanel;
     }
@@ -171,14 +182,19 @@ public class GUI implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		boolean validEvent = false;
 		String title = this.bookTitle.getText();
 		String author = this.bookAuthor.getText();
 		String rating = this.bookRating.getText();
+		String command = ((JButton) e.getSource()).getName();
 		
-		if (title.equals("") || author.equals("") || (((JButton) e.getSource()).getName().equals("rate")) && rating.equals("")) {
+		if (command.equals("help") || command.equals("suggestRead")) {
+			validEvent = true;
+		} else if (title.equals("") || author.equals("") || (command.equals("rate") && rating.equals(""))) {
 			JOptionPane.showMessageDialog(null, "Fields cannot be empty!");
 		}
-		else {
+		
+		if (validEvent) {
 			try {
 				parser.setCommand(((JButton) e.getSource()).getName());
 				System.out.println(((JButton) e.getSource()).getName());

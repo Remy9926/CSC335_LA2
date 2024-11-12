@@ -277,26 +277,32 @@ public class Parser {
 			
 			case ADD_BOOK:
 				Book newBook = new Book(args[0], args[1]);
-				boolean added= model.addBookToLibrary(newBook);
-				if (added){
+				boolean bookIsAdded = model.addBookToLibrary(newBook);
+				
+				if (bookIsAdded){
 					return "Book added successfully: " + newBook;
-
-				}else{
-					return "Error, cannot be added. Book is already in the library.";
-				}
-			
-			case SET_TO_READ:
-				boolean success = model.setToRead(args[0], args[1]);  
-				//validation 
-				if (success) {
-					return "Book marked as read.";
-				} else {
-					return "Book not found or already read.";
 				}
 				
-			case RATE:
-				//TODO: change this
+				return "Error, cannot be added. Book is already in the library.";
+			
+			case SET_TO_READ:
+				boolean bookIsSetToRead = model.setToRead(args[0], args[1]);  
 
+				if (bookIsSetToRead) {
+					return "Book marked as read.";
+				}
+				
+				return "Book not found or already read.";
+				
+			case RATE:
+				boolean bookIsRated = model.rateBook(args[0], Integer.parseInt(args[2]), args[1]);
+				
+				if (bookIsRated) {
+					return "Book has been rated.";
+				}
+				
+				return "Invalid rating given or book does not exist.";
+				
 			case GET_BOOKS:
 				//TODO: change this
 				
@@ -309,27 +315,16 @@ public class Parser {
 				}
 				
 			case SUGGEST_READ:
-				//TODO: change this
 				Book suggestedBook = model.suggestBook();
 				
 				if (suggestedBook == null) {
-					System.out.println("You have already read all books in your library!");
+					return "You have already read all books in your library!";
 				} else {
-					 System.out.println(suggestedBook);
+					return "Suggested: " + suggestedBook;
 				}
-				
-			case ADD_BOOKS:
-				//TODO: change this
-				break;
 				
 			case HELP:
 				return helpMessage();
-				
-			case EXIT:
-				System.out.println("See you soon!");
-				System.out.println("Exiting...");
-				//TODO: change this
-				return null;
 			
 			default:
 				return "Sorry, I do not understand your command. Type help for the list of commands.";
