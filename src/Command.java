@@ -1,3 +1,5 @@
+package src;
+
 // File: Command.java
 // Author(s): Mandy Jiang (mandyjiang), Ethan Huang (ehuang68)
 // Purpose: Represents the different commands that a user can input
