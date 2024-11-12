@@ -25,7 +25,7 @@ public class Parser {
 	
 	public Parser() {
 		this.model = new LibraryModel();
-		this.gui = new GUI(this.model);
+		this.gui = new GUI(model, this);
 	}
 	
 	/*
@@ -267,6 +267,77 @@ public class Parser {
 		return 0;
 	}
 	
+	public String executeCommandGUI(String[] args) {
+		ArrayList<Book> books = new ArrayList<Book>();
+
+		switch (this.command) {
+			case SEARCH:
+				//TODO: change this
+				break;
+			
+			case ADD_BOOK:
+				Book newBook = new Book(args[0], args[1]);
+				boolean added= model.addBookToLibrary(newBook);
+				if (added){
+					return "Book added successfully: " + newBook;
+
+				}else{
+					return "Error, cannot be added. Book is already in the library.";
+				}
+			
+			case SET_TO_READ:
+				boolean success = model.setToRead(args[0], args[1]);  
+				//validation 
+				if (success) {
+					return "Book marked as read.";
+				} else {
+					return "Book not found or already read.";
+				}
+				
+			case RATE:
+				//TODO: change this
+
+			case GET_BOOKS:
+				//TODO: change this
+				
+				if (books != null && !books.isEmpty()) {
+					for (Book book : books) {
+						System.out.println(book); 
+					}
+				} else {
+					System.out.println("No books found or sort option invalid.");
+				}
+				
+			case SUGGEST_READ:
+				//TODO: change this
+				Book suggestedBook = model.suggestBook();
+				
+				if (suggestedBook == null) {
+					System.out.println("You have already read all books in your library!");
+				} else {
+					 System.out.println(suggestedBook);
+				}
+				
+			case ADD_BOOKS:
+				//TODO: change this
+				break;
+				
+			case HELP:
+				return helpMessage();
+				
+			case EXIT:
+				System.out.println("See you soon!");
+				System.out.println("Exiting...");
+				//TODO: change this
+				return null;
+			
+			default:
+				return "Sorry, I do not understand your command. Type help for the list of commands.";
+		}
+		//TODO: change this
+		return null;
+	}
+	
 	/*
 	 * Cleans the user's input so that it doesn't have any leading or trailing whitspace
 	 * 
@@ -295,5 +366,16 @@ public class Parser {
 		System.out.println("getBooks- retrieves all books sorting by title or author, or only read/unread books\n");
 		System.out.println("suggestRead- picks a random unread book from the library\n");
 		System.out.println("addBooks- specify a file name, and all books from that file will be read into the library\n");
+	}
+	
+	private String helpMessage() {
+		return "All commands are case sensitive!\n" + 
+	"search- specify whether to search by title, author, or rating and the results will be returned to you\n" +
+	"addBook- specify the title, author, rating, and whether or not you have read the book and adds it to your library\n" +
+	"setToRead- specify the title and author of the book you want to set to read\n" +
+	"rate- specify the title and author of the book you want to rate from 1-5 with default ratings set to 0\n" +
+	"getBooks- retrieves all books sorting by title or author, or only read/unread books\n" +
+	"suggestRead- picks a random unread book from the library\n" +
+	"addBooks- specify a file name, and all books from that file will be read into the library\n";
 	}
 }
