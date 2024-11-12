@@ -1,4 +1,3 @@
-package src;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -23,6 +22,9 @@ public class GUI implements ActionListener {
     	this.parser = parser;
     	setUp();
     }
+    
+    
+   
 
     private void setUp() {
         JFrame mainFrame = new JFrame("Library");
@@ -96,7 +98,7 @@ public class GUI implements ActionListener {
     }
 
     private JPanel createTopPanel() {
-        String[] sortByOptions = {"Title", "Author", "Rating"};
+        String[] sortByOptions = {"Title", "Author", "Rating", "Read", "Unread"};
 
         JPanel topPanel = new JPanel();
         JPanel searchButtonPanel = new JPanel();
@@ -118,6 +120,12 @@ public class GUI implements ActionListener {
         			parser.setCommand(((JButton) e.getSource()).getName());
         			String[] args = {sortOption};
         			ArrayList<Book> books = parser.getBooksGUI(args);
+        			
+        			if ("read".equals(sortOption)) {//read unread
+                        books.removeIf(book -> !book.haveRead()); 
+                    } else if ("unread".equals(sortOption)) {
+                        books.removeIf(Book::haveRead);  
+                    }
         			
         			if (books == null || books.isEmpty()) {
         				books = new ArrayList<Book>();
