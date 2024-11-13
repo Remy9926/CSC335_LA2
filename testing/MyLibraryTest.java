@@ -1,4 +1,7 @@
-package testing;
+// File: Book.java
+// Author(s): Mandy Jiang (mandyjiang), Ethan Huang (ehuang68)
+// Purpose: mylibrary.java junit tests
+
 
 import org.junit.jupiter.api.*;
 import java.io.ByteArrayInputStream;
@@ -7,7 +10,6 @@ import java.io.PrintStream;
 import java.lang.reflect.Method;
 import static org.junit.jupiter.api.Assertions.*;
 
-import src.MyLibrary;
 
 public class MyLibraryTest {
 

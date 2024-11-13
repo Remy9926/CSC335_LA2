@@ -1,4 +1,6 @@
-
+// File: Book.java
+// Author(s): Mandy Jiang (mandyjiang), Ethan Huang (ehuang68)
+// Purpose: GUI view of program
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

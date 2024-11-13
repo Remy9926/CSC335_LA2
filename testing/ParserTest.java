@@ -1,4 +1,7 @@
-package testing;
+
+// File: Book.java
+// Author(s): Mandy Jiang (mandyjiang), Ethan Huang (ehuang68)
+// Purpose: parser.java junit tests
 
 import org.junit.jupiter.api.*;
 import java.io.ByteArrayInputStream;

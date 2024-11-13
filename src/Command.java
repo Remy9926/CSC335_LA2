@@ -1,5 +1,3 @@
-package src;
-
 // File: Command.java
 // Author(s): Mandy Jiang (mandyjiang), Ethan Huang (ehuang68)
 // Purpose: Represents the different commands that a user can input
@@ -11,6 +9,9 @@ package src;
  * of Command that is currently associated with the Parser, which is achieved everytime the
  * user gives input into the UI.
  */
+
+
+
 
 public enum Command {
 	SEARCH,

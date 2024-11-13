@@ -1,9 +1,11 @@
-package testing;
+// File: Book.java
+// Author(s): Mandy Jiang (mandyjiang), Ethan Huang (ehuang68)
+// Purpose: Junit tests for book.java
+
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
 
-import src.Book;
 
 public class BookTest {
 

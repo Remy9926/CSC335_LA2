@@ -1,4 +1,3 @@
-package src;
 
 // File: Parser.java
 // Author(s): Mandy Jiang (mandyjiang), Ethan Huang (ehuang68)
@@ -267,6 +266,8 @@ public class Parser {
 		return 0;
 	}
 	
+	
+	// implemented for GUI
 	public String executeCommandGUI(String[] args) {
 		ArrayList<Book> books = new ArrayList<Book>();
 
