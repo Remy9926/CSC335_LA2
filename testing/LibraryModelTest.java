@@ -1,4 +1,4 @@
-// File: Book.java
+// File: LibraryModelTest.java
 // Author(s): Mandy Jiang (mandyjiang), Ethan Huang (ehuang68)
 // Purpose: librarymodel.java junit tests
 

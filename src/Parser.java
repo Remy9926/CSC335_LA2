@@ -1,4 +1,3 @@
-package src;
 
 // File: Parser.java
 // Author(s): Mandy Jiang (mandyjiang), Ethan Huang (ehuang68)

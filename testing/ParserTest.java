@@ -1,5 +1,5 @@
 
-// File: Book.java
+// File: ParserTest.java
 // Author(s): Mandy Jiang (mandyjiang), Ethan Huang (ehuang68)
 // Purpose: parser.java junit tests
 

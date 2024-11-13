@@ -1,4 +1,4 @@
-// File: Book.java
+// File: MyLibraryTest.java
 // Author(s): Mandy Jiang (mandyjiang), Ethan Huang (ehuang68)
 // Purpose: mylibrary.java junit tests
 

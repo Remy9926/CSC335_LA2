@@ -1,4 +1,4 @@
-// File: Book.java
+// File: BookTest.java
 // Author(s): Mandy Jiang (mandyjiang), Ethan Huang (ehuang68)
 // Purpose: Junit tests for book.java
 
