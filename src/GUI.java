@@ -1,3 +1,5 @@
+package src;
+
 // File: GUI.java
 // Author(s): Mandy Jiang (mandyjiang), Ethan Huang (ehuang68)
 // Purpose: GUI view of program
@@ -252,7 +254,6 @@ public class GUI implements ActionListener {
 		String rating = this.bookRating.getText();
 		String command = ((JButton) e.getSource()).getName();
 		
-		System.out.println(command);
 		if ((title.equals("") || author.equals("")) && (command.equals("addBook") || command.equals("setToRead"))) {
 			JOptionPane.showMessageDialog(null, "Title and Author fields cannot be empty!");
 			validEvent = false;
@@ -265,15 +266,11 @@ public class GUI implements ActionListener {
 		
 		if (validEvent) {
 			try {
-				parser.setCommand(((JButton) e.getSource()).getName());
-				System.out.println(((JButton) e.getSource()).getName());
+				parser.setCommand(command);
 				String[] args = {title, author, rating};
-				System.out.println(title + " " + author + " " + rating);
 				String returnMessage = parser.executeCommandGUI(args);
 				displayBooks(libraryModel.getBooks("title"));
 				JOptionPane.showMessageDialog(null, returnMessage);
-				//complete the executeCommandGUI method to implement
-				//each functionality but via gui
 			} catch (NullCommandException exception) {
 				System.out.println(exception);
 			}

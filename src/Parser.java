@@ -1,3 +1,4 @@
+package src;
 
 // File: Parser.java
 // Author(s): Mandy Jiang (mandyjiang), Ethan Huang (ehuang68)
@@ -270,7 +271,7 @@ public class Parser {
 	// implemented for GUI
 	public String executeCommandGUI(String[] args) {
 		ArrayList<Book> books = new ArrayList<Book>();
-
+		
 		switch (this.command) {
 			case ADD_BOOK:
 				Book newBook = new Book(args[0], args[1]);
@@ -299,10 +300,10 @@ public class Parser {
 				}
 				
 				return "Invalid rating given or book does not exist.";
-
+				
 			case SUGGEST_READ:
 				Book suggestedBook = model.suggestBook();
-				
+
 				if (suggestedBook == null) {
 					return "You have already read all books in your library!";
 				} else {
