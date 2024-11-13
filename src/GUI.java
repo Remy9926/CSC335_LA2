@@ -1,4 +1,4 @@
-// File: Book.java
+// File: GUI.java
 // Author(s): Mandy Jiang (mandyjiang), Ethan Huang (ehuang68)
 // Purpose: GUI view of program
 import java.awt.*;
